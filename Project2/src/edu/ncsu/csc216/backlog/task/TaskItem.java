@@ -98,7 +98,7 @@ public class TaskItem {
 	 * Alternate constructor for TaskItem
 	 * @param type the type of the task
 	 */
-	public TaskItem(Type type) {
+	public TaskItem(Task task) {
 		
 	}
 	
