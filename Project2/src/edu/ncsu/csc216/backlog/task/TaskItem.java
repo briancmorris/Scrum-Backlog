@@ -51,22 +51,22 @@ public class TaskItem {
 	private final TaskItemState rejectedState = new RejectedState();
 	
 	/** The string representation of backlog */
-	private static final String BACKLOG_NAME = "Backlog";
+	public static final String BACKLOG_NAME = "Backlog";
 	
 	/** the string representation of owned */
-	private static final String OWNED_NAME = "Owned";
+	public static final String OWNED_NAME = "Owned";
 	
 	/** The string representation of processing */
-	private static final String PROCESSING_NAME = "Processing";
+	public static final String PROCESSING_NAME = "Processing";
 	
 	/** The string representation of verifying */
-	private static final String VERIFYING_NAME = "Veryifying";
+	public static final String VERIFYING_NAME = "Veryifying";
 	
 	/** The string representation of done */
-	private static final String DONE_NAME = "Done";
+	public static final String DONE_NAME = "Done";
 	
 	/** The string representation of rejected */
-	private static final String REJECTED_NAME = "Rejected";
+	public static final String REJECTED_NAME = "Rejected";
 	
 	/** The string representation of the feature type */
 	private static final String T_FEATURE = "F";

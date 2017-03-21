@@ -74,7 +74,7 @@ public class ScrumBacklogModel {
      * @param creator the creator of the TaskItems
      * @return the TaskItems with the specified creator
      */
-    public Object[][] gettaskItemListByCreatorAsArray(String creator) {
+    public Object[][] getTaskItemListByCreatorAsArray(String creator) {
         return null;
     }
     
