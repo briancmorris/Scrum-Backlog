@@ -207,7 +207,7 @@ public class TaskItem {
 	
 	/**
 	 * Updates the current command for the task
-	 * @param updateCommand the new command
+	 * @param command the command to execute
 	 */
 	public void update (Command command) {
 		
