@@ -3,6 +3,8 @@
  */
 package edu.ncsu.csc216.backlog.task;
 
+import edu.ncsu.csc216.backlog.command.Command;
+
 /**
  * @author wbooth
  *
@@ -35,5 +37,59 @@ public class TaskItem {
 		 */
 		String getStateName();
 	
+	}
+	
+	/**
+	 * Represents the state where a task is in the Backlog State.
+	 * @author wbooth
+	 *
+	 */
+	private class BacklogState {
+		
+	}
+	
+	/**
+	 * Represents the state where a task is in the Owned State.
+	 * @author wbooth
+	 *
+	 */
+	private class OwnedState {
+		
+	}
+	
+	/**
+	 * Represents the state where a task is in the Processing State.
+	 * @author wbooth
+	 *
+	 */
+	private class ProcessingState {
+		
+	}
+	
+	/**
+	 * Represents the state where a task is in the Verifying State.
+	 * @author wbooth
+	 *
+	 */
+	private class VerifyingState {
+		
+	}
+	
+	/**
+	 * Represents the state where a task is in the Done State.
+	 * @author wbooth
+	 *
+	 */
+	private class DoneState {
+		
+	}
+	
+	/**
+	 * Represents the state where a task is in the Rejected State.
+	 * @author wbooth
+	 *
+	 */
+	private class RejectedState {
+		
 	}
 }
