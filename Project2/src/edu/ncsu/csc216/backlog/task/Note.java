@@ -28,7 +28,7 @@ public class Note {
      * Returns the author of the Note.
      * @return the author of the Note
      */
-    public String getAuthorNote() {
+    public String getNoteAuthor() {
         return noteAuthor;
     }
     /**

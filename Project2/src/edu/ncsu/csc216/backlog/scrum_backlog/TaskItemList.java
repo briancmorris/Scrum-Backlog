@@ -73,7 +73,7 @@ public class TaskItemList {
      * @param creator the creator of the TaskItems
      * @return a list containing the TaskItems sorted by the specified creator
      */
-    public ArrayList<TaskItem> getTaskItemsByCreator(String creator) {
+    public ArrayList<TaskItem> getTasksByCreator(String creator) {
         return null;
     }
 
@@ -99,7 +99,7 @@ public class TaskItemList {
      * Deletes the TaskItem with the specified id from the list.
      * @param id the id of the TaskItem
      */
-    public void deleteTaskById(int id) {
+    public void deleteTaskItemById(int id) {
         
     }
 }
