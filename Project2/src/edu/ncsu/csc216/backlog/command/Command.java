@@ -9,4 +9,6 @@ package edu.ncsu.csc216.backlog.command;
  */
 public class Command {
 
+	public static enum CommandValue { BACKLOG, CLAIM, PROCESS, VERIFY, COMPLETE, REJECT }
+
 }
