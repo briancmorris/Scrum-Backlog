@@ -17,7 +17,12 @@ public class Command {
 	/** Contains the types of state that a task can have */
 	public static enum CommandValue { BACKLOG, CLAIM, PROCESS, VERIFY, COMPLETE, REJECT }
 	
-	
+	/**
+	 * The constructor for the command class
+	 * @param c the current CommandValue for the given command
+	 * @param noteAuthor the author of the note
+	 * @param noteText the text of the note
+	 */
 	public Command(CommandValue c, String noteAuthor, String noteText) {
 		
 	}
