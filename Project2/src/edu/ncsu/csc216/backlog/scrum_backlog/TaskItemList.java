@@ -1,6 +1,6 @@
 package edu.ncsu.csc216.backlog.scrum_backlog;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import edu.ncsu.csc216.backlog.command.Command;
 import edu.ncsu.csc216.backlog.task.TaskItem;
@@ -47,7 +47,7 @@ public class TaskItemList {
      * Adds TaskItems found from an XML file to the list.
      * @param list an ArrayList containing TaskItem values.
      */
-    public void addXMLTasks(ArrayList<TaskItem> list) {
+    public void addXMLTasks(List<TaskItem> list) {
 
     }
 
@@ -55,7 +55,7 @@ public class TaskItemList {
      * Returns the list containing the TaskItems.
      * @return the list containing the TaskItems
      */
-    public ArrayList<TaskItem> getTaskItems() {
+    public List<TaskItem> getTaskItems() {
         return null;
     }
 
@@ -64,7 +64,7 @@ public class TaskItemList {
      * @param owner the owner of the TaskItems
      * @return a list containing the TaskItems sorted by the specified owner
      */
-    public ArrayList<TaskItem> getTaskItemsByOwner(String owner) {
+    public List<TaskItem> getTaskItemsByOwner(String owner) {
         return null;
     }
 
@@ -73,7 +73,7 @@ public class TaskItemList {
      * @param creator the creator of the TaskItems
      * @return a list containing the TaskItems sorted by the specified creator
      */
-    public ArrayList<TaskItem> getTasksByCreator(String creator) {
+    public List<TaskItem> getTasksByCreator(String creator) {
         return null;
     }
 

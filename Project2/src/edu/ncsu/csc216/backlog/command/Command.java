@@ -39,7 +39,7 @@ public class Command {
 	 * Returns the note String
 	 * @return note the note string
 	 */
-	public String getNoteTest () {
+	public String getNoteText () {
 		return note;
 	}
 	
