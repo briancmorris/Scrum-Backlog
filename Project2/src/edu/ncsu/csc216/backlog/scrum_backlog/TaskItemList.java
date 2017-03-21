@@ -5,6 +5,7 @@ import java.util.List;
 import edu.ncsu.csc216.backlog.command.Command;
 import edu.ncsu.csc216.backlog.task.TaskItem;
 import edu.ncsu.csc216.backlog.task.TaskItem.Type;
+import edu.ncsu.csc216.task.xml.Task;
 
 //TODO update all Javadoc to be descriptive.
 /**
@@ -47,7 +48,7 @@ public class TaskItemList {
      * Adds TaskItems found from an XML file to the list.
      * @param list an ArrayList containing TaskItem values.
      */
-    public void addXMLTasks(List<TaskItem> list) {
+    public void addXMLTasks(List<Task> list) {
 
     }
 
