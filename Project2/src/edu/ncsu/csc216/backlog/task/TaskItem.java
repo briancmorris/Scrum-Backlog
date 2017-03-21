@@ -92,4 +92,7 @@ public class TaskItem {
 	private class RejectedState {
 		
 	}
+	
+	public static enum Type { FEATURE, BUG, TECHNICAL_WORK, KNOWLEDGE_ACQUISITION }
+
 }
