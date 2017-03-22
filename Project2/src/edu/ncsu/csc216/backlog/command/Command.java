@@ -4,8 +4,8 @@
 package edu.ncsu.csc216.backlog.command;
 
 /**
- * @author wbooth
- *
+ * Holds data for objects of type Command. 
+ * @author Walker Booth
  */
 public class Command {
 

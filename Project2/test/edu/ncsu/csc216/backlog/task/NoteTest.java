@@ -4,9 +4,17 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+/**
+ * Tests the note class.
+ * @author Brian Morris
+ *
+ */
 public class NoteTest {
 
-    @Test
+    /**
+     * Unimplemented test
+     */
+	@Test
     public void test() {
         fail("Not yet implemented");
     }

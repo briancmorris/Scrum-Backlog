@@ -9,8 +9,8 @@ import edu.ncsu.csc216.backlog.command.Command;
 import edu.ncsu.csc216.task.xml.Task;
 
 /**
- * @author wbooth
- *
+ * Holds data about TaskItem objects. 
+ * @author Walker Booth
  */
 public class TaskItem {
 
@@ -96,17 +96,21 @@ public class TaskItem {
 	
 	/**
 	 * Alternate constructor for TaskItem
-	 * @param type the type of the task
+	 * @param task the type of the task
 	 */
 	public TaskItem(Task task) {
 		
 	}
 	
+	/**
+	 * Increments the counter variable
+	 */
 	public static void incrementCounter() {
 		counter++;
 	}
 	
 	/**
+	 * Returns the current state of the task item
 	 * @return the state
 	 */
 	public TaskItemState getState() {
@@ -130,6 +134,7 @@ public class TaskItem {
 	}
 
 	/**
+	 * Gets the task item's ID
 	 * @return the taskID
 	 */
 	public int getTaskItemId() {
@@ -137,6 +142,7 @@ public class TaskItem {
 	}
 
 	/**
+	 * Gets the title of the task
 	 * @return the title
 	 */
 	public String getTitle() {
@@ -144,6 +150,7 @@ public class TaskItem {
 	}
 
 	/**
+	 * Gets the creator of the task 
 	 * @return the creator
 	 */
 	public String getCreator() {
@@ -151,6 +158,7 @@ public class TaskItem {
 	}
 
 	/**
+	 * Gets the owner of the task 
 	 * @return the owner
 	 */
 	public String getOwner() {
@@ -158,6 +166,7 @@ public class TaskItem {
 	}
 
 	/**
+	 * Sets the counter variable 
 	 * @param counter the counter to set
 	 */
 	public static void setCounter(int counter) {
@@ -258,7 +267,7 @@ public class TaskItem {
 	
 	/**
 	 * Represents the state where a task is in the Backlog State.
-	 * @author wbooth
+	 * @author Walker Booth
 	 *
 	 */
 	private class BacklogState implements TaskItemState {
@@ -279,7 +288,7 @@ public class TaskItem {
 	
 	/**
 	 * Represents the state where a task is in the Owned State.
-	 * @author wbooth
+	 * @author Walker Booth
 	 *
 	 */
 	private class OwnedState implements TaskItemState {
@@ -300,7 +309,7 @@ public class TaskItem {
 	
 	/**
 	 * Represents the state where a task is in the Processing State.
-	 * @author wbooth
+	 * @author Walker Booth
 	 *
 	 */
 	private class ProcessingState implements TaskItemState {
@@ -321,7 +330,7 @@ public class TaskItem {
 	
 	/**
 	 * Represents the state where a task is in the Verifying State.
-	 * @author wbooth
+	 * @author Walker Booth
 	 *
 	 */
 	private class VerifyingState implements TaskItemState {
@@ -342,7 +351,7 @@ public class TaskItem {
 	
 	/**
 	 * Represents the state where a task is in the Done State.
-	 * @author wbooth
+	 * @author Walker Booth
 	 *
 	 */
 	private class DoneState implements TaskItemState {
@@ -363,7 +372,7 @@ public class TaskItem {
 	
 	/**
 	 * Represents the state where a task is in the Rejected State.
-	 * @author wbooth
+	 * @author Walker Booth
 	 *
 	 */
 	private class RejectedState implements TaskItemState {
@@ -384,7 +393,7 @@ public class TaskItem {
 	
 	/**
 	 * Holds the various types of types
-	 * @author wbooth
+	 * @author Walker Booth
 	 *
 	 */
 	public static enum Type { FEATURE, BUG, TECHNICAL_WORK, KNOWLEDGE_ACQUISITION }	

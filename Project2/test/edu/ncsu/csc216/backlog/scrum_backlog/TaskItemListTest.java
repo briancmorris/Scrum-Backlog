@@ -4,9 +4,17 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+/**
+ * Tests the TaskItemList class. 
+ * @author Brian Morris
+ *
+ */
 public class TaskItemListTest {
 
-    @Test
+    /**
+     * Unimplemented test method. 
+     */
+	@Test
     public void test() {
         fail("Not yet implemented");
     }
