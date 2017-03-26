@@ -27,15 +27,15 @@ public class Command {
 	 */
 	public Command(CommandValue c, String noteAuthor, String noteText) {
 		if (c == null) {
-			throw new IllegalArgumentException("Parameters must not be null.");
+			throw new IllegalArgumentException("Parameters must not be null or empty.");
 		}
 		
-		if (noteAuthor == null) {
-			throw new IllegalArgumentException("Parameters must not be null.");
+		if (noteAuthor == null || noteAuthor.isEmpty()) {
+			throw new IllegalArgumentException("Parameters must not be null or empty.");
 		}
 		
-		if (noteText == null) {
-			throw new IllegalArgumentException("Parameters must not be null.");
+		if (noteText == null || noteText.isEmpty()) {
+			throw new IllegalArgumentException("Parameters must not be null or empty.");
 		}
 		
 		this.c = c;

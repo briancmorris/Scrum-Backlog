@@ -9,6 +9,7 @@ import edu.ncsu.csc216.backlog.command.Command.CommandValue;
 /** 
  * Tests the Command class. 
  * @author Brian Morris
+ * @author Walker Booth
  *
  */
 public class CommandTest {
@@ -31,7 +32,7 @@ public class CommandTest {
     		fail();
     	}
     	catch (IllegalArgumentException e) {
-    		assertEquals("Parameters must not be null.", e.getMessage());
+    		assertEquals("Parameters must not be null or empty.", e.getMessage());
     	}
     	
     	try {
@@ -39,7 +40,15 @@ public class CommandTest {
     		fail();
     	}
     	catch (IllegalArgumentException e) {
-    		assertEquals("Parameters must not be null.", e.getMessage());
+    		assertEquals("Parameters must not be null or empty.", e.getMessage());
+    	}
+    	
+    	try {
+    		Command c = new Command(VALID_COMMAND, "", VALID_NOTE_TEXT);
+    		fail();
+    	}
+    	catch (IllegalArgumentException e) {
+    		assertEquals("Parameters must not be null or empty.", e.getMessage());
     	}
     	
     	try {
@@ -47,7 +56,15 @@ public class CommandTest {
     		fail();
     	}
     	catch (IllegalArgumentException e) {
-    		assertEquals("Parameters must not be null.", e.getMessage());
+    		assertEquals("Parameters must not be null or empty.", e.getMessage());
+    	}
+    	
+    	try {
+    		Command c = new Command(VALID_COMMAND, VALID_NOTE_AUTHOR, "");
+    		fail();
+    	}
+    	catch (IllegalArgumentException e) {
+    		assertEquals("Parameters must not be null or empty.", e.getMessage());
     	}
     	
     	Command c = new Command(VALID_COMMAND, VALID_NOTE_AUTHOR, VALID_NOTE_TEXT);
