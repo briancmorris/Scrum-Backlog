@@ -13,6 +13,8 @@ public class Command {
 	private String note;
 	/** The author of the note */
 	private String noteAuthor;
+	/** The value of the command */
+	private CommandValue c;
 	
 	/** Contains the types of state that a task can have */
 	public static enum CommandValue { BACKLOG, CLAIM, PROCESS, VERIFY, COMPLETE, REJECT }
@@ -24,15 +26,29 @@ public class Command {
 	 * @param noteText the text of the note
 	 */
 	public Command(CommandValue c, String noteAuthor, String noteText) {
+		if (c == null) {
+			throw new IllegalArgumentException("Parameters must not be null.");
+		}
 		
+		if (noteAuthor == null) {
+			throw new IllegalArgumentException("Parameters must not be null.");
+		}
+		
+		if (noteText == null) {
+			throw new IllegalArgumentException("Parameters must not be null.");
+		}
+		
+		this.c = c;
+		this.noteAuthor = noteAuthor;
+		this.note = noteText;
 	}
 	
 	/**
-	 * Returns the command value 
-	 * @return commandValue the commandValue
+	 * Returns the value of this command
+	 * @return commandValue the value of this command
 	 */
 	public CommandValue getCommand () {
-		return null;
+		return c;
 	}
 	
 	/**
