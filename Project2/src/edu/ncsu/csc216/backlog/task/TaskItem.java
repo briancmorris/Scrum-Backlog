@@ -83,6 +83,12 @@ public class TaskItem {
 	/** A counter variable */
 	private static int counter = 1;
 	
+	/** The type of task */
+	private Type type;
+	
+	/** The ArrayList of notes attached to a task */
+	private ArrayList<Note> notes;
+	
 	/**
 	 * Constructor for TaskItem
 	 * @param title the title of the task  
