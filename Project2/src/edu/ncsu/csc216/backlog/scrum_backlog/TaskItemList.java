@@ -49,7 +49,7 @@ public class TaskItemList {
      * @param list an ArrayList containing TaskItem values.
      */
     public void addXMLTasks(List<Task> list) {
-
+        //maxID, maxID+1 when incrementing counter
     }
 
     /**

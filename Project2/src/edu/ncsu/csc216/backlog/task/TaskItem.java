@@ -97,7 +97,23 @@ public class TaskItem {
 	 * @param note the note attached to the task
 	 */
 	public TaskItem(String title, Type type, String creator, String note) {
-		
+		if (title == null || title.equals("")) {
+		    throw new IllegalArgumentException();
+		} else if (type == null){
+		    throw new IllegalArgumentException();
+		} else if (creator == null || creator.equals("")) {
+            throw new IllegalArgumentException();
+        } else if (note == null || note.equals("")) {
+            throw new IllegalArgumentException();
+        }
+	    this.title = title;
+		this.type = type;
+		this.creator = creator;
+		this.notes = new ArrayList<Note>();
+		notes.add(new Note(creator, note));
+		this.state = backlogState;
+		this.taskID = counter;
+		incrementCounter();
 	}
 	
 	/**
@@ -105,7 +121,16 @@ public class TaskItem {
 	 * @param task the type of the task
 	 */
 	public TaskItem(Task task) {
-		
+	    this.taskID = task.getId();
+	    setState(task.getState());
+	    setType(task.getType());
+	    this.title = task.getTitle();
+	    this.creator = task.getCreator();
+	    this.owner = task.getOwner();
+	    
+	    //TODO figure out how to add notes from NoteList to notes.
+	    //for (int i = 0; i < task.getNoteList().s)
+	    //this.notes = task.getNoteList();
 	}
 	
 	/**
@@ -128,7 +153,6 @@ public class TaskItem {
 	 * @param state the state to set
 	 */
 	protected void setState(String state) {
-
 	}
 	
 	/**
