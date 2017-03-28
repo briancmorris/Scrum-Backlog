@@ -1,6 +1,7 @@
 package edu.ncsu.csc216.backlog.task;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.ncsu.csc216.backlog.command.Command;
 import edu.ncsu.csc216.task.xml.Task;
@@ -67,16 +68,16 @@ public class TaskItem {
 	public static final String REJECTED_NAME = "Rejected";
 	
 	/** The string representation of the feature type */
-	private static final String T_FEATURE = "F";
+	public static final String T_FEATURE = "F";
 	
 	/** The string representation of the bug type */
-	private static final String T_BUG = "B";
+	public static final String T_BUG = "B";
 	
 	/** The string representation of the technical work type */
-	private static final String T_TECHNICAL_WORK = "TW";
+	public static final String T_TECHNICAL_WORK = "TW";
 	
 	/** The string representation of the knowledge acquisition type */
-	private static final String T_KNOWLEDGE_ACQUISITION = "KA";
+	public static final String T_KNOWLEDGE_ACQUISITION = "KA";
 	
 	/** A counter variable */
 	private static int counter = 1;
@@ -125,10 +126,12 @@ public class TaskItem {
 	    this.title = task.getTitle();
 	    this.creator = task.getCreator();
 	    this.owner = task.getOwner();
-	    
+	    /*List taskNotes = task.g;
+	    for (int i = 0; i < taskNotes.size() ; i++) {
+	        notes.add(taskNotes.)
+	    }*/
 	    //TODO figure out how to add notes from NoteList to notes.
-	    //for (int i = 0; i < task.getNoteList().s)
-	    //this.notes = task.getNoteList();
+
 	}
 	
 	/**
