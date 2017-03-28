@@ -100,7 +100,8 @@ public class TaskItemTest {
 	public void testTaskItemOneParam () {
     	Task task = new Task();
     	task.setTitle(null);
-    	task.setType("BUG");
+    	task.setType(TaskItem.T_BUG);
+    	task.setState(TaskItem.BACKLOG_NAME);
     	NoteItem noteItem = new NoteItem();
     	noteItem.setNoteAuthor(VALID_CREATOR);
     	noteItem.setNoteText(VALID_NOTE);
@@ -108,8 +109,8 @@ public class TaskItemTest {
 		noteList.getNotes().add(noteItem);
 		task.setNoteList(noteList);
     	try {
-    		TaskItem t = new TaskItem(task);
-    		fail();
+    		TaskItem t = new TaskItem(task);  
+    		fail();    
     	} catch (IllegalArgumentException e) {
     		assertEquals("Invalid task information.", e.getMessage());
     	}
