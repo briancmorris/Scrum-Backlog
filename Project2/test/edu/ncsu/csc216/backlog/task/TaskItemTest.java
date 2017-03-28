@@ -12,6 +12,7 @@ import edu.ncsu.csc216.task.xml.Task;
 /**
  * Tests the TaskItem class
  * @author Brian Morris
+ * @author Walker Booth
  *
  */
 public class TaskItemTest {
@@ -78,15 +79,15 @@ public class TaskItemTest {
     	} catch (IllegalArgumentException e) {
     		assertEquals("Invalid task information.", e.getMessage());
     	}
-    	
+    	TaskItem.setCounter(1);
     	TaskItem t = new TaskItem (VALID_TITLE, VALID_TYPE, VALID_CREATOR, VALID_NOTE);
     	assertEquals(VALID_TITLE, t.getTitle());
     	assertEquals(VALID_TYPE, t.getType());
     	assertEquals(VALID_CREATOR, t.getCreator());
-    	assertEquals(VALID_CREATOR, t.getNotes().get(0));
-    	assertEquals(VALID_NOTE, t.getNotes().get(1));
+    	assertEquals(VALID_NOTE, t.getNotes().get(0).getNoteText());
+    	//assertEquals(VALID_NOTE, t.getNotes().get(1));
     	assertEquals(1, t.getTaskItemId());
-    	assertEquals("BACKLOG", t.getStateName());
+    	assertEquals("Backlog", t.getStateName());
     	assertEquals(null, t.getOwner());
 
     }
@@ -94,6 +95,7 @@ public class TaskItemTest {
     /**
      * Tests the constructor that takes a parameter of type Task
      */
+    @Test
     @SuppressWarnings("unused")
 	public void testTaskItemOneParam () {
     	Task task = new Task();
@@ -239,7 +241,7 @@ public class TaskItemTest {
     	assertEquals(VALID_CREATOR, t.getCreator());
     	assertEquals(VALID_CREATOR, t.getNotes().get(0));
     	assertEquals(VALID_NOTE, t.getNotes().get(1));
-    	assertEquals("BACKLOG", t.getStateName());
+    	assertEquals("Backlog", t.getStateName());
     	assertEquals(1, t.getTaskItemId());
     	assertEquals(null, t.getOwner());
     	
@@ -295,14 +297,14 @@ public class TaskItemTest {
     	}
     	
     	try {
-    		t1.setType("BACKLOG");
+    		t1.setType("Backlog");
     		fail();
     	} catch (IllegalArgumentException e) {
     		assertEquals("Invalid type.", e.getMessage());
     	}
     	
     	t1.setType("F");
-    	assertEquals("F", t1.getStateName());
+    	assertEquals("F", t1.getTypeString());
     }
     
     /**

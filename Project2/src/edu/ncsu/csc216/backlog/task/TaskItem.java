@@ -96,13 +96,13 @@ public class TaskItem {
 	 */
 	public TaskItem(String title, Type type, String creator, String note) {
 		if (title == null || title.equals("")) {
-		    throw new IllegalArgumentException();
+		    throw new IllegalArgumentException("Invalid task information.");
 		} else if (type == null){
-		    throw new IllegalArgumentException();
+		    throw new IllegalArgumentException("Invalid task information.");
 		} else if (creator == null || creator.equals("")) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Invalid task information.");
         } else if (note == null || note.equals("")) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Invalid task information.");
         }
 	    this.title = title;
 		this.type = type;
@@ -151,7 +151,9 @@ public class TaskItem {
 	 * @param state the state to set
 	 */
 	protected void setState(String state) {
-	    if (state.equals(BACKLOG_NAME)) {
+	    if (state == null) {
+	        throw new IllegalArgumentException("Invalid state.");
+	    } else if (state.equals(BACKLOG_NAME)) {
 	        this.state = backlogState;
 	    } else if (state.equals(DONE_NAME)) {
 	        this.state = doneState;
@@ -164,7 +166,7 @@ public class TaskItem {
 	    } else if (state.equals(REJECTED_NAME)) {
             this.state = rejectedState;
         } else {
-            throw new IllegalArgumentException("Invalid state"); //not sure if needed
+            throw new IllegalArgumentException("Invalid state."); //not sure if needed
         }
 	}
 	
@@ -173,7 +175,9 @@ public class TaskItem {
 	 * @param type the provided task type
 	 */
 	protected void setType(String type) {
-		if (type.equals(T_FEATURE)) {
+	    if (type == null) {
+	        throw new IllegalArgumentException("Invalid type.");
+	    } else if (type.equals(T_FEATURE)) {
 		    this.type = Type.FEATURE;
 		} else if (type.equals(T_BUG)) {
 		    this.type = Type.BUG;
@@ -344,8 +348,7 @@ public class TaskItem {
 
 		@Override
 		public String getStateName() {
-			// TODO Auto-generated method stub
-			return null;
+			return "Backlog";
 		}
 		
 	}
