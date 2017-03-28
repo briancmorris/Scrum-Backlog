@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.ncsu.csc216.backlog.command.Command;
+import edu.ncsu.csc216.task.xml.NoteItem;
 import edu.ncsu.csc216.task.xml.Task;
 
 /**
@@ -120,16 +121,31 @@ public class TaskItem {
 	 * @param task the type of the task
 	 */
 	public TaskItem(Task task) {
-	    this.taskID = task.getId();
+	    if (task.getId() < 0) {
+	        throw new IllegalArgumentException("Invalid task information.");
+	    } else if (task.getState() == null || task.getState().equals("")) {
+	        throw new IllegalArgumentException("Invalid task information.");
+	    } else if (task.getCreator() == null || task.getCreator().equals("")) {
+	        throw new IllegalArgumentException("Invalid task information.");
+	    } else if (task.getOwner() == null || task.getOwner().equals("")) {
+	        throw new IllegalArgumentException("Invalid task information.");
+	    } else if (task.getTitle() == null || task.getTitle().equals("")) {
+	        throw new IllegalArgumentException("Invalid task information.");
+	    } else if (task.getType() == null || task.getType().equals("")) {
+	        throw new IllegalArgumentException("Invalid task information.");
+	    }
+	    
 	    setState(task.getState());
 	    setType(task.getType());
 	    this.title = task.getTitle();
 	    this.creator = task.getCreator();
 	    this.owner = task.getOwner();
-	    /*List taskNotes = task.g;
-	    for (int i = 0; i < taskNotes.size() ; i++) {
-	        notes.add(taskNotes.)
-	    }*/
+	    List<NoteItem> taskNotes = task.getNoteList().getNotes();
+	    for (int i = 0; i < taskNotes.size(); i++) {
+	        String noteAuthor = taskNotes.get(i).getNoteAuthor();
+	        String noteText = taskNotes.get(i).getNoteText();
+	        notes.add(new Note(noteAuthor, noteText));
+	    }
 	    //TODO figure out how to add notes from NoteList to notes.
 
 	}
@@ -262,9 +278,8 @@ public class TaskItem {
 		    return T_KNOWLEDGE_ACQUISITION;
 		} else if (type.equals(Type.TECHNICAL_WORK)) {
 		    return T_TECHNICAL_WORK;
-		} else {
-		    throw new IllegalArgumentException("Invalid type"); //not sure if needed
 		}
+		return "";
 	}
 	
 	/**
