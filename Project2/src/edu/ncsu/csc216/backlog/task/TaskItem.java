@@ -1,6 +1,3 @@
-/**
- * 
- */
 package edu.ncsu.csc216.backlog.task;
 
 import java.util.ArrayList;
@@ -9,8 +6,9 @@ import edu.ncsu.csc216.backlog.command.Command;
 import edu.ncsu.csc216.task.xml.Task;
 
 /**
- * Holds data about TaskItem objects. 
+ * Maintains information about a TaskItem including: its ID, completion state, title, creator, owner, type, and notes. 
  * @author Walker Booth
+ * @author Brian Morris
  */
 public class TaskItem {
 
@@ -153,78 +151,113 @@ public class TaskItem {
 	 * @param state the state to set
 	 */
 	protected void setState(String state) {
+	    if (state.equals(BACKLOG_NAME)) {
+	        this.state = backlogState;
+	    } else if (state.equals(DONE_NAME)) {
+	        this.state = doneState;
+	    } else if (state.equals(OWNED_NAME)) {
+	        this.state = ownedState;
+	    } else if (state.equals(PROCESSING_NAME)) {
+	        this.state = processingState;
+	    } else if (state.equals(VERIFYING_NAME)) {
+	        this.state = verifyingState;
+	    } else if (state.equals(REJECTED_NAME)) {
+            this.state = rejectedState;
+        } else {
+            throw new IllegalArgumentException("Invalid state"); //not sure if needed
+        }
 	}
 	
 	/**
-	 * Sets the type of the task 
-	 * @param type the type to set
+	 * Sets the type of the task to the provided task type.
+	 * @param type the provided task type
 	 */
 	protected void setType(String type) {
-		
+		if (type.equals(T_FEATURE)) {
+		    this.type = Type.FEATURE;
+		} else if (type.equals(T_BUG)) {
+		    this.type = Type.BUG;
+		} else if (type.equals(T_TECHNICAL_WORK)) {
+		    this.type = Type.TECHNICAL_WORK;
+		} else if (type.equals(T_KNOWLEDGE_ACQUISITION)) {
+		    this.type = Type.KNOWLEDGE_ACQUISITION;
+		} else {
+		    throw new IllegalArgumentException("Invalid type."); //not sure if needed
+		}
 	}
 
 	/**
-	 * Gets the task item's ID
-	 * @return the taskID
+	 * Returns the task item's ID
+	 * @return the task item's ID
 	 */
 	public int getTaskItemId() {
 		return taskID;
 	}
 
 	/**
-	 * Gets the title of the task
-	 * @return the title
+	 * Returns the title of the task
+	 * @return the title of the task
 	 */
 	public String getTitle() {
 		return title;
 	}
 
 	/**
-	 * Gets the creator of the task 
-	 * @return the creator
+	 * Returns the creator of the task.
+	 * @return the creator of the task
 	 */
 	public String getCreator() {
 		return creator;
 	}
 
 	/**
-	 * Gets the owner of the task 
-	 * @return the owner
+	 * Returns the owner of the task.
+	 * @return the owner of the task
 	 */
 	public String getOwner() {
 		return owner;
 	}
 
 	/**
-	 * Sets the counter variable 
-	 * @param counter the counter to set
+	 * Sets the counter variable to the parameter value.
+	 * @param counter the new counter value
 	 */
 	public static void setCounter(int counter) {
 		TaskItem.counter = counter;
 	}
 	
 	/**
-	 * Returns the name of the task's state
+	 * Returns the name of the task's state.
 	 * @return the name of the task's state
 	 */
 	public String getStateName() {
-		return null;
+		return state.getStateName();
 	}
 	
 	/** 
-	 * Returns the type of the task
+	 * Returns the type of the task.
 	 * @return the type of the task
 	 */
 	public Type getType() {
-		return null;
+		return type;
 	}
 	
 	/**
-	 * Returns the type of the task as a string
+	 * Returns the type of the task as a string.
 	 * @return the type of the task as a string
 	 */
 	public String getTypeString() {
-		return null;
+		if (type.equals(Type.BUG)) {
+		    return T_BUG;
+		} else if (type.equals(Type.FEATURE)) {
+		    return T_FEATURE;
+		} else if (type.equals(Type.KNOWLEDGE_ACQUISITION)) {
+		    return T_KNOWLEDGE_ACQUISITION;
+		} else if (type.equals(Type.TECHNICAL_WORK)) {
+		    return T_TECHNICAL_WORK;
+		} else {
+		    throw new IllegalArgumentException("Invalid type"); //not sure if needed
+		}
 	}
 	
 	/**
@@ -237,11 +270,11 @@ public class TaskItem {
 
 	
 	/** 
-	 * Returns the notes of the task 
+	 * Returns the notes of the task.
 	 * @return the notes of the task
 	 */
 	public ArrayList<Note> getNotes() {
-		return null;
+		return notes;
 	}
 	
 	/**
@@ -298,6 +331,7 @@ public class TaskItem {
 	/**
 	 * Represents the state where a task is in the Backlog State.
 	 * @author Walker Booth
+	 * @author Brian Morris
 	 *
 	 */
 	private class BacklogState implements TaskItemState {
@@ -319,6 +353,7 @@ public class TaskItem {
 	/**
 	 * Represents the state where a task is in the Owned State.
 	 * @author Walker Booth
+	 * @author Brian Morris
 	 *
 	 */
 	private class OwnedState implements TaskItemState {
@@ -340,6 +375,7 @@ public class TaskItem {
 	/**
 	 * Represents the state where a task is in the Processing State.
 	 * @author Walker Booth
+	 * @author Brian Morris
 	 *
 	 */
 	private class ProcessingState implements TaskItemState {
@@ -361,6 +397,7 @@ public class TaskItem {
 	/**
 	 * Represents the state where a task is in the Verifying State.
 	 * @author Walker Booth
+	 * @author Brian Morris
 	 *
 	 */
 	private class VerifyingState implements TaskItemState {
@@ -382,6 +419,7 @@ public class TaskItem {
 	/**
 	 * Represents the state where a task is in the Done State.
 	 * @author Walker Booth
+	 * @author Brian Morris
 	 *
 	 */
 	private class DoneState implements TaskItemState {
@@ -403,6 +441,7 @@ public class TaskItem {
 	/**
 	 * Represents the state where a task is in the Rejected State.
 	 * @author Walker Booth
+	 * @author Brian Morris
 	 *
 	 */
 	private class RejectedState implements TaskItemState {
@@ -424,6 +463,7 @@ public class TaskItem {
 	/**
 	 * Holds the various types of types
 	 * @author Walker Booth
+	 * @author Brian Morris
 	 *
 	 */
 	public static enum Type { FEATURE, BUG, TECHNICAL_WORK, KNOWLEDGE_ACQUISITION }	
