@@ -318,7 +318,7 @@ public class TaskItemTest {
     	
     	TaskItem.setCounter(9);
     	TaskItem t1 = new TaskItem (VALID_TITLE, VALID_TYPE, VALID_CREATOR, VALID_NOTE);
-    	assertEquals(10, t1.getTaskItemId());
+    	assertEquals(9, t1.getTaskItemId());
     }
     
 }
