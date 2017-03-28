@@ -291,14 +291,14 @@ public class TaskItemTest {
     		t1.setType(null);
     		fail();
     	} catch (IllegalArgumentException e) {
-    		assertEquals("Invalid state.", e.getMessage());
+    		assertEquals("Invalid type.", e.getMessage());
     	}
     	
     	try {
     		t1.setType("BACKLOG");
     		fail();
     	} catch (IllegalArgumentException e) {
-    		assertEquals("Invalid state.", e.getMessage());
+    		assertEquals("Invalid type.", e.getMessage());
     	}
     	
     	t1.setType("F");
