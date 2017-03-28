@@ -279,8 +279,19 @@ public class TaskItemTest {
     		assertEquals("Invalid state.", e.getMessage());
     	}
     	
-    	t1.setState("Backlog");
-    	assertEquals("Backlog", t1.getStateName());
+    	t1.setState(TaskItem.BACKLOG_NAME);
+    	assertEquals(TaskItem.BACKLOG_NAME, t1.getStateName());
+    	t1.setState(TaskItem.DONE_NAME);
+    	assertEquals(TaskItem.DONE_NAME, t1.getStateName());
+    	t1.setState(TaskItem.OWNED_NAME);
+    	assertEquals(TaskItem.OWNED_NAME, t1.getStateName());
+    	t1.setState(TaskItem.PROCESSING_NAME);
+    	assertEquals(TaskItem.PROCESSING_NAME, t1.getStateName());
+    	t1.setState(TaskItem.REJECTED_NAME);
+    	assertEquals(TaskItem.REJECTED_NAME, t1.getStateName());
+    	t1.setState(TaskItem.VERIFYING_NAME);
+    	assertEquals(TaskItem.VERIFYING_NAME, t1.getStateName());
+    	
     }
     
     /**
@@ -305,6 +316,12 @@ public class TaskItemTest {
     	
     	t1.setType("F");
     	assertEquals("F", t1.getTypeString());
+    	t1.setType(TaskItem.T_BUG);
+    	assertEquals(TaskItem.T_BUG, t1.getTypeString());
+    	t1.setType(TaskItem.T_KNOWLEDGE_ACQUISITION);
+    	assertEquals(TaskItem.T_KNOWLEDGE_ACQUISITION, t1.getTypeString());
+    	t1.setType(TaskItem.T_TECHNICAL_WORK);
+    	assertEquals(TaskItem.T_TECHNICAL_WORK, t1.getTypeString());
     }
     
     /**
