@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.ncsu.csc216.backlog.command.Command;
 import edu.ncsu.csc216.task.xml.NoteItem;
+import edu.ncsu.csc216.task.xml.NoteList;
 import edu.ncsu.csc216.task.xml.Task;
 
 /**
@@ -123,16 +124,21 @@ public class TaskItem {
 	public TaskItem(Task task) {
 	    if (task.getId() < 0) {
 	        throw new IllegalArgumentException("Invalid task information.");
-	    } else if (task.getState() == null || task.getState().equals("")) {
+	    } else if (task.getState() == null || task.getState().equals("")) {   
 	        throw new IllegalArgumentException("Invalid task information.");
 	    } else if (task.getCreator() == null || task.getCreator().equals("")) {
 	        throw new IllegalArgumentException("Invalid task information.");
-	    } else if (task.getOwner() == null || task.getOwner().equals("")) {
-	        throw new IllegalArgumentException("Invalid task information.");
-	    } else if (task.getTitle() == null || task.getTitle().equals("")) {
+	    } else if (task.getTitle() == null) {
 	        throw new IllegalArgumentException("Invalid task information.");
 	    } else if (task.getType() == null || task.getType().equals("")) {
 	        throw new IllegalArgumentException("Invalid task information.");
+	    } else if (task.getOwner() == null && 
+	    		  	(task.getState().equals(OWNED_NAME) || task.getState().equals(PROCESSING_NAME) ||
+	    		   task.getState().equals(DONE_NAME) || task.getState().equals(VERIFYING_NAME))) {
+	    	throw new IllegalArgumentException("Invalid task information.");
+	    } else if (task.getOwner() != null &&
+	    			(task.getState().equals(BACKLOG_NAME) || task.getState().equals(REJECTED_NAME))) {
+	    	throw new IllegalArgumentException("Invalid task information.");
 	    }
 	    
 	    setState(task.getState());
@@ -140,12 +146,15 @@ public class TaskItem {
 	    this.title = task.getTitle();
 	    this.creator = task.getCreator();
 	    this.owner = task.getOwner();
+	    this.notes = new ArrayList<Note>();
 	    List<NoteItem> taskNotes = task.getNoteList().getNotes();
 	    for (int i = 0; i < taskNotes.size(); i++) {
 	        String noteAuthor = taskNotes.get(i).getNoteAuthor();
 	        String noteText = taskNotes.get(i).getNoteText();
 	        notes.add(new Note(noteAuthor, noteText));
 	    }
+	    this.taskID = counter;
+	    incrementCounter();
 	    //TODO figure out how to add notes from NoteList to notes.
 
 	}
@@ -246,6 +255,9 @@ public class TaskItem {
 	 * @param counter the new counter value
 	 */
 	public static void setCounter(int counter) {
+		if (counter < 1) {
+			throw new IllegalArgumentException("Invalid task item id.");
+		}
 		TaskItem.counter = counter;
 	}
 	
@@ -287,7 +299,16 @@ public class TaskItem {
 	 * @return the type of the task as a full string
 	 */
 	public String getTypeFullString() {
-		return null;
+		if (type.equals(Type.BUG)) {
+		    return "Bug";
+		} else if (type.equals(Type.FEATURE)) {
+		    return "Feature";
+		} else if (type.equals(Type.KNOWLEDGE_ACQUISITION)) {
+		    return "Knowledge Acquisition";
+		} else if (type.equals(Type.TECHNICAL_WORK)) {
+		    return "Technical Work";
+		}
+		return "";
 	}
 
 	
@@ -312,7 +333,23 @@ public class TaskItem {
 	 * @return the task an an XML type
 	 */
 	public Task getXMLTask() {
-		return null;
+		Task task = new Task();      
+    	task.setTitle(title);
+    	task.setType(getTypeString());
+    	task.setState(TaskItem.BACKLOG_NAME);
+    	task.setCreator(creator);
+    	
+    	NoteList noteList = new NoteList();
+		task.setNoteList(noteList);
+		for (int i = 0; i < notes.size(); i++) {
+			NoteItem noteItem = new NoteItem();
+	    	noteItem.setNoteAuthor(notes.get(i).getNoteAuthor());
+	    	noteItem.setNoteText(notes.get(i).getNoteText());
+			noteList.getNotes().add(noteItem);
+		}
+		task.setNoteList(noteList);
+		
+		return task;
 	}
 	
 	/**
@@ -320,7 +357,12 @@ public class TaskItem {
 	 * @return the list of notes
 	 */
 	public String[][] getNotesArray () {
-		return null;
+		String[][] array = new String[notes.size()][2];
+		for (int i = 0; i < notes.size(); i++) {
+			array[i][0] = notes.get(i).getNoteAuthor();
+			array[i][1] = notes.get(i).getNoteText();
+		}
+		return array;
 	}
 
 	/**

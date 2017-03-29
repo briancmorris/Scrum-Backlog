@@ -116,22 +116,6 @@ public class TaskItemTest {
     	}
     	
     	task = new Task();
-    	task.setTitle("");
-    	task.setType("BUG");
-    	noteItem = new NoteItem();
-    	noteItem.setNoteAuthor(VALID_CREATOR);
-    	noteItem.setNoteText(VALID_NOTE);
-    	noteList = new NoteList();
-		noteList.getNotes().add(noteItem);
-		task.setNoteList(noteList);
-    	try {
-    		TaskItem t = new TaskItem(task);
-    		fail();
-    	} catch (IllegalArgumentException e) {
-    		assertEquals("Invalid task information.", e.getMessage());
-    	}
-    	
-    	task = new Task();
     	task.setTitle(VALID_TITLE);
     	task.setType(null);
     	noteItem = new NoteItem();
@@ -230,9 +214,29 @@ public class TaskItemTest {
     	task = new Task();
     	task.setTitle(VALID_TITLE);
     	task.setType("BUG");
+    	task.setId(-1);
     	noteItem = new NoteItem();
-    	noteItem.setNoteAuthor("wgbooth");
-    	noteItem.setNoteText("This is a note.");
+    	noteItem.setNoteAuthor(VALID_CREATOR);
+    	noteItem.setNoteText("blah");
+    	noteList = new NoteList();
+		noteList.getNotes().add(noteItem);
+		task.setNoteList(noteList);
+    	try {
+    		TaskItem t = new TaskItem(task);
+    		fail();
+    	} catch (IllegalArgumentException e) {
+    		assertEquals("Invalid task information.", e.getMessage());
+    	}    	
+    	
+    	TaskItem.setCounter(1);
+    	task = new Task();
+    	task.setTitle(VALID_TITLE);
+    	task.setType(TaskItem.T_BUG);
+    	task.setState(TaskItem.BACKLOG_NAME);
+    	task.setCreator(VALID_CREATOR);
+    	noteItem = new NoteItem();
+    	noteItem.setNoteAuthor(VALID_CREATOR);
+    	noteItem.setNoteText(VALID_NOTE);
     	noteList = new NoteList();
 		noteList.getNotes().add(noteItem);
 		task.setNoteList(noteList);
@@ -240,8 +244,7 @@ public class TaskItemTest {
     	assertEquals(VALID_TITLE, t.getTitle());
     	assertEquals(VALID_TYPE, t.getType());
     	assertEquals(VALID_CREATOR, t.getCreator());
-    	assertEquals(VALID_CREATOR, t.getNotes().get(0));
-    	assertEquals(VALID_NOTE, t.getNotes().get(1));
+    	assertEquals(VALID_NOTE, t.getNotes().get(0).getNoteText());
     	assertEquals("Backlog", t.getStateName());
     	assertEquals(1, t.getTaskItemId());
     	assertEquals(null, t.getOwner());
@@ -332,6 +335,7 @@ public class TaskItemTest {
     public void testSetCounter() {
     	try {
     		TaskItem.setCounter(-1);
+    		fail();
     	} catch (IllegalArgumentException e) {
     		assertEquals("Invalid task item id.", e.getMessage());
     	}
