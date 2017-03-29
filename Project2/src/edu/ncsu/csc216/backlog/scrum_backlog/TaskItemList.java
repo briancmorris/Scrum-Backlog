@@ -1,5 +1,6 @@
 package edu.ncsu.csc216.backlog.scrum_backlog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.ncsu.csc216.backlog.command.Command;
@@ -16,32 +17,38 @@ import edu.ncsu.csc216.task.xml.Task;
 public class TaskItemList {
 
     // TODO Add field descriptions
-    /** Add descriptions */
+    /** The initial counter value to generate task ID numbers */
     private static final int INITIAL_COUNTER_VALUE = 1;
+    /** An ArrayList used to store TaskItems */
+    private ArrayList<TaskItem> taskItemList;
 
     /**
-     * Constructor for TaskItemList.
+     * The constructor for TaskItemList constructs an empty ArrayList of TaskItems.
      */
     public TaskItemList() {
-
+        emptyList();
     }
 
     /**
-     * Creates an empty list.
+     * Creates an empty TaskItemList.
      */
     private void emptyList() {
+        this.taskItemList = new ArrayList<TaskItem>();
+        TaskItem.setCounter(INITIAL_COUNTER_VALUE);
     }
 
     /**
-     * Adds a TaskItem to a list.
+     * Adds a TaskItem to the end of the TaskItemList.
      * @param title the title of the TaskItem
      * @param type the type of the TaskItem
      * @param creator the creator of the TaskItem
      * @param note the note of the TaskItem
-     * @return an integer
+     * @return the 
      */
     public int addTaskItem(String title, Type type, String creator, String note) {
-        return 0;
+        TaskItem newTask = new TaskItem(title, type, creator, note);
+        taskItemList.add(newTask);
+        return newTask.getTaskItemId();
     }
 
     /**
