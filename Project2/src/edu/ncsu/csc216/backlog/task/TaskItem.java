@@ -18,22 +18,31 @@ public class TaskItem {
 	/** ID of the task */
 	private int taskID;
 	
-	/** State of the task */
+	/** Title of the task */
+    private String title;
+
+    /** Creator of the task */
+    private String creator;
+
+    /** Owner of the task */
+    private String owner;
+
+    /** The ArrayList of notes attached to a task */
+    private ArrayList<Note> notes;
+
+    /** Whether or note the task is verified */
+    private boolean isVerified;
+
+    /** State of the task */
 	private TaskItemState state;
 	
-	/** Title of the task */
-	private String title;
-	
-	/** Creator of the task */
-	private String creator;
-	
-	/** Owner of the task */
-	private String owner;
-	
-	/** Whether or note the task is verified */
-	private boolean isVerified;
-	
-	/** The state of backlog for a task */
+	/** The type of task */
+    private Type type;
+
+    /** A counter variable */
+    private static int counter = 1;
+
+    /** The state of backlog for a task */
 	private final TaskItemState backlogState = new BacklogState();
 	
 	/** The state of owned for a task */
@@ -81,15 +90,6 @@ public class TaskItem {
 	/** The string representation of the knowledge acquisition type */
 	public static final String T_KNOWLEDGE_ACQUISITION = "KA";
 	
-	/** A counter variable */
-	private static int counter = 1;
-	
-	/** The type of task */
-	private Type type;
-	
-	/** The ArrayList of notes attached to a task */
-	private ArrayList<Note> notes;
-	
 	/**
 	 * Constructor for TaskItem
 	 * @param title the title of the task  
@@ -114,6 +114,7 @@ public class TaskItem {
 		notes.add(new Note(creator, note));
 		this.state = backlogState;
 		this.taskID = counter;
+		this.isVerified = false;
 		incrementCounter();
 	}
 	
@@ -133,11 +134,11 @@ public class TaskItem {
 	    } else if (task.getType() == null || task.getType().equals("")) {
 	        throw new IllegalArgumentException("Invalid task information.");
 	    } else if (task.getOwner() == null && 
-	    		  	(task.getState().equals(OWNED_NAME) || task.getState().equals(PROCESSING_NAME) ||
+	    		  (task.getState().equals(OWNED_NAME) || task.getState().equals(PROCESSING_NAME) ||
 	    		   task.getState().equals(DONE_NAME) || task.getState().equals(VERIFYING_NAME))) {
 	    	throw new IllegalArgumentException("Invalid task information.");
 	    } else if (task.getOwner() != null &&
-	    			(task.getState().equals(BACKLOG_NAME) || task.getState().equals(REJECTED_NAME))) {
+	    		  (task.getState().equals(BACKLOG_NAME) || task.getState().equals(REJECTED_NAME))) {
 	    	throw new IllegalArgumentException("Invalid task information.");
 	    }
 	    
@@ -155,7 +156,6 @@ public class TaskItem {
 	    }
 	    this.taskID = counter;
 	    incrementCounter();
-	    //TODO figure out how to add notes from NoteList to notes.
 
 	}
 	
@@ -325,7 +325,7 @@ public class TaskItem {
 	 * @param command the command to execute
 	 */
 	public void update (Command command) {
-		
+		state.updateState(command);
 	}
 	
 	/**
@@ -333,7 +333,7 @@ public class TaskItem {
 	 * @return the task an an XML type
 	 */
 	public Task getXMLTask() {
-		Task task = new Task();      
+		Task task = new Task();
     	task.setTitle(title);
     	task.setType(getTypeString());
     	task.setState(TaskItem.BACKLOG_NAME);
@@ -402,13 +402,26 @@ public class TaskItem {
 
 		@Override
 		public void updateState(Command c) {
-			// TODO Auto-generated method stub
+		    if(c == null) {
+		        throw new UnsupportedOperationException();
+		    } else if (c.getCommand() == Command.CommandValue.CLAIM) {
+		        owner = c.getNoteAuthor();
+		        notes.add(new Note(owner, c.getNoteText()));
+		        state = ownedState;
+		    } else if (c.getCommand() == Command.CommandValue.REJECT) {
+		        notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
+		        owner = null;
+		        state = rejectedState;
+		        //TODO does owner need to be set to null? Can't find in requirements.
+		    } else {
+		        throw new UnsupportedOperationException();
+		    }
 			
 		}
 
 		@Override
 		public String getStateName() {
-			return "Backlog";
+			return TaskItem.BACKLOG_NAME;
 		}
 		
 	}
@@ -423,14 +436,28 @@ public class TaskItem {
 
 		@Override
 		public void updateState(Command c) {
-			// TODO Auto-generated method stub
+		    if (c == null) {
+		        throw new UnsupportedOperationException();
+		    } else if (c.getCommand() == Command.CommandValue.PROCESS) {
+		        notes.add(new Note(owner, c.getNoteText()));
+		        state = processingState;
+		    } else if (c.getCommand() == Command.CommandValue.REJECT) {
+		        notes.add(new Note(owner, c.getNoteText()));
+		        owner = null;
+	            state = rejectedState;
+		    } else if (c.getCommand() == Command.CommandValue.BACKLOG) {
+		        notes.add(new Note(owner, c.getNoteText()));
+		        owner = null; 
+		        state = backlogState;
+		    } else {
+		        throw new UnsupportedOperationException();
+		    }
 			
 		}
 
 		@Override
 		public String getStateName() {
-			// TODO Auto-generated method stub
-			return null;
+			return TaskItem.OWNED_NAME;
 		}
 		
 	}
@@ -445,14 +472,29 @@ public class TaskItem {
 
 		@Override
 		public void updateState(Command c) {
-			// TODO Auto-generated method stub
+			if (c == null) {
+			    throw new UnsupportedOperationException();
+			} else if (c.getCommand() == Command.CommandValue.PROCESS) {
+			    notes.add(new Note(owner, c.getNoteText()));
+			} else if (c.getCommand() == Command.CommandValue.VERIFY) {
+			    notes.add(new Note(owner, c.getNoteText()));
+	            state = verifyingState;
+			} else if (c.getCommand() == Command.CommandValue.COMPLETE) {
+			    notes.add(new Note(owner, c.getNoteText())); //TODO need to check task type/verification here?
+			    state = doneState;
+			} else if (c.getCommand() == Command.CommandValue.BACKLOG) {
+			    notes.add(new Note(owner, c.getNoteText()));
+			    owner = null;
+			    state = backlogState;
+			} else {
+			    throw new UnsupportedOperationException();
+			}
 			
 		}
 
 		@Override
 		public String getStateName() {
-			// TODO Auto-generated method stub
-			return null;
+			return TaskItem.PROCESSING_NAME;
 		}
 		
 	}
@@ -467,14 +509,24 @@ public class TaskItem {
 
 		@Override
 		public void updateState(Command c) {
-			// TODO Auto-generated method stub
+		    if (c == null) {
+		        throw new UnsupportedOperationException();
+		    } else if (c.getCommand() == Command.CommandValue.COMPLETE) {
+		        isVerified = true;
+		        notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
+		        state = doneState;
+		    } else if (c.getCommand() == Command.CommandValue.PROCESS) {
+		        notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
+		        state = processingState;
+		    } else {
+		        throw new UnsupportedOperationException();
+		    }
 			
 		}
 
 		@Override
 		public String getStateName() {
-			// TODO Auto-generated method stub
-			return null;
+			return TaskItem.VERIFYING_NAME;
 		}
 		
 	}
@@ -489,14 +541,25 @@ public class TaskItem {
 
 		@Override
 		public void updateState(Command c) {
-			// TODO Auto-generated method stub
-			
+		    if (c == null) {
+                throw new UnsupportedOperationException();
+            } else if (c.getCommand() == Command.CommandValue.PROCESS) {
+                isVerified = false;
+                notes.add(new Note(owner, c.getNoteText()));
+                state = processingState;
+            } else if (c.getCommand() == Command.CommandValue.BACKLOG) {
+                isVerified = false;
+                notes.add(new Note(owner, c.getNoteText()));
+                owner = null;
+                state = backlogState;
+            } else {
+                throw new UnsupportedOperationException();
+            }
 		}
 
 		@Override
 		public String getStateName() {
-			// TODO Auto-generated method stub
-			return null;
+			return TaskItem.DONE_NAME;
 		}
 		
 	}
@@ -511,14 +574,19 @@ public class TaskItem {
 
 		@Override
 		public void updateState(Command c) {
-			// TODO Auto-generated method stub
-			
+		    if (c == null) {
+                throw new UnsupportedOperationException();
+            } else if (c.getCommand() == Command.CommandValue.BACKLOG) {
+                notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
+                state = backlogState;
+            } else {
+                throw new UnsupportedOperationException();
+            }
 		}
 
 		@Override
 		public String getStateName() {
-			// TODO Auto-generated method stub
-			return null;
+			return TaskItem.REJECTED_NAME;
 		}
 		
 	}
