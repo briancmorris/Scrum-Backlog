@@ -16,7 +16,6 @@ import edu.ncsu.csc216.task.xml.Task;
  */
 public class TaskItemList {
 
-    // TODO Add field descriptions
     /** The initial counter value to generate task ID numbers */
     private static final int INITIAL_COUNTER_VALUE = 1;
     /** An ArrayList used to store TaskItems */
@@ -30,7 +29,7 @@ public class TaskItemList {
     }
 
     /**
-     * Creates an empty TaskItemList.
+     * Creates an empty TaskItemList and ensures that the counter in TaskItem is 1.
      */
     private void emptyList() {
         this.taskItemList = new ArrayList<TaskItem>();
@@ -52,62 +51,100 @@ public class TaskItemList {
     }
 
     /**
-     * Adds TaskItems found from an XML file to the list.
-     * @param list an ArrayList containing TaskItem values.
+     * Adds tasks found in the given task list to the TaskItemList.
+     * @param list a list containing TaskItem values.
      */
     public void addXMLTasks(List<Task> list) {
-        //maxID, maxID+1 when incrementing counter
+        int maxID = list.get(0).getId();
+        for (int i = 0; i < list.size(); i++) {
+            TaskItem newTask = new TaskItem(list.get(i));
+            taskItemList.add(newTask);
+            if (list.get(i).getId() > maxID) {
+                maxID = list.get(i).getId();
+            }
+        }
+        TaskItem.setCounter(maxID + 1);
     }
 
     /**
-     * Returns the ArrayList containing the TaskItems.
-     * @return the ArrayList containing the TaskItems
+     * Returns the list containing the TaskItems.
+     * @return the list containing the TaskItems
      */
     public List<TaskItem> getTaskItems() {
         return taskItemList;
     }
 
     /**
-     * Returns a list containing the TaskItems sorted by a specified owner.
+     * Returns a list containing the TaskItems sorted by the specified owner.
      * @param owner the owner of the TaskItems
      * @return a list containing the TaskItems sorted by the specified owner
      */
     public List<TaskItem> getTaskItemsByOwner(String owner) {
-        return null;
+        List<TaskItem> sortedByOwner = new ArrayList<TaskItem>();
+        for (int i = 0; i < taskItemList.size(); i++) {
+            TaskItem testItem = taskItemList.get(i);
+            if (testItem.getOwner().equals(owner)) {
+                sortedByOwner.add(testItem);
+            }
+        }
+        return sortedByOwner;
     }
 
     /**
-     * Returns a list containing the TaskItems sorted by a specified creator.
+     * Returns a list containing the TaskItems sorted by the specified creator.
      * @param creator the creator of the TaskItems
      * @return a list containing the TaskItems sorted by the specified creator
      */
     public List<TaskItem> getTasksByCreator(String creator) {
-        return null;
+        List<TaskItem> sortedByCreator = new ArrayList<TaskItem>();
+        for (int i = 0; i < taskItemList.size(); i++) {
+            TaskItem testItem = taskItemList.get(i);
+            if (testItem.getCreator().equals(creator)) {
+                sortedByCreator.add(testItem);
+            }
+        }
+        return sortedByCreator;
     }
 
     /**
-     * Gets the specified TaskItem based on its id.
+     * Returns the TaskItem that has the specified id.
      * @param id the id of the TaskItem
      * @return the TaskItem with the specified id
      */
     public TaskItem getTaskItemById(int id) {
+        for (int i = 0; i < taskItemList.size(); i++) {
+            TaskItem testItem = taskItemList.get(i);
+            if (testItem.getTaskItemId() == id) {
+                return testItem;
+            }
+        }
         return null;
     }
-    
+
     /**
-     * Executes the specified command on the TaskItem with the specified id
+     * Deletes the TaskItem that has the specified id from the list.
+     * @param id the specified id of the TaskItem
+     */
+    public void deleteTaskItemById(int id) {
+        for (int i = 0; i < taskItemList.size(); i++) {
+            TaskItem testItem = taskItemList.get(i);
+            if (testItem.getTaskItemId() == id) {
+                taskItemList.remove(i);
+            }
+        }
+    }
+
+    /**
+     * Executes the specified command on the TaskItem that has the specified id
      * @param id the id of the TaskItem
      * @param command the command to perform
      */
     public void executeCommand(int id, Command command) {
-        
-    }
-    
-    /**
-     * Deletes the TaskItem with the specified id from the list.
-     * @param id the id of the TaskItem
-     */
-    public void deleteTaskItemById(int id) {
-        
+        for (int i = 0; i < taskItemList.size(); i++) {
+            TaskItem testItem = taskItemList.get(i);
+            if (testItem.getTaskItemId() == id) {
+                testItem.update(command);
+            }
+        }
     }
 }

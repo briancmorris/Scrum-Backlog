@@ -89,6 +89,7 @@ public class TaskItemListTest {
         task2.setVerified(false);
         task2.setOwner(OWNER);
         task2.setState("Owned");
+        task2.setNoteList(testNotes);
 	    
         Task task3 = new Task();
 	    task3.setCreator("spbalik");
@@ -98,6 +99,7 @@ public class TaskItemListTest {
         task3.setVerified(false);
         task3.setOwner(OWNER);
         task3.setState("Owned");
+        task3.setNoteList(testNotes);
 	    
 	    testTaskList.add(task1);
 	    testTaskList.add(task2);
@@ -159,6 +161,7 @@ public class TaskItemListTest {
         task2.setVerified(false);
         task2.setOwner("bcmorri3");
         task2.setState("Owned");
+        task2.setNoteList(testNotes);
         
         Task task3 = new Task();
         task3.setCreator("spbalik");
@@ -168,6 +171,7 @@ public class TaskItemListTest {
         task3.setVerified(false);
         task3.setOwner("spbalik");
         task3.setState("Owned");
+        task3.setNoteList(testNotes);
         
         testTaskList.add(task1);
         testTaskList.add(task2);
@@ -216,6 +220,7 @@ public class TaskItemListTest {
         assertTrue(testTask.getCreator().equals(CREATOR));
         testTask = test.getTaskItemById(3);
         assertTrue(testTask.getCreator().equals("wgbooth"));
+        assertTrue(test.getTaskItemById(5) == null);
 	}
 	
 	/**
@@ -229,6 +234,7 @@ public class TaskItemListTest {
 	       try {
 	           test.executeCommand(1, testCommand);
 	           assertTrue(test.getTaskItemById(1).getStateName().equals("Owned"));
+	           test.executeCommand(5, testCommand);
 	       } catch (UnsupportedOperationException e) {
 	           fail();
 	       }
@@ -242,7 +248,10 @@ public class TaskItemListTest {
 	    TaskItemList test = new TaskItemList();
         test.addTaskItem(TITLE, TYPE, CREATOR, NOTE_TEXT);
         assertEquals(1, test.getTaskItems().size());
+        test.deleteTaskItemById(5);
+        assertEquals(1, test.getTaskItems().size());
         test.deleteTaskItemById(1);
         assertEquals(0, test.getTaskItems().size());
+        
 	}
 }
