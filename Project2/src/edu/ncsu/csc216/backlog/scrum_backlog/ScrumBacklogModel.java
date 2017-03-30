@@ -3,6 +3,9 @@ package edu.ncsu.csc216.backlog.scrum_backlog;
 import edu.ncsu.csc216.backlog.command.Command;
 import edu.ncsu.csc216.backlog.task.TaskItem;
 import edu.ncsu.csc216.backlog.task.TaskItem.Type;
+import edu.ncsu.csc216.task.xml.TaskIOException;
+import edu.ncsu.csc216.task.xml.TaskReader;
+import edu.ncsu.csc216.task.xml.TaskWriter;
 
 //TODO add descriptions to Javadoc
 /**
@@ -13,11 +16,16 @@ import edu.ncsu.csc216.backlog.task.TaskItem.Type;
  */
 public class ScrumBacklogModel {
 
+	/** The single instance of the ScrumBacklogModel */
+	private static ScrumBacklogModel singleton;
+	/** The list of Task Items */
+	private TaskItemList tasks;
+	
     /**
      * The constructor of ScrumBacklogModel
      */
     private ScrumBacklogModel() {
-        
+        singleton.createNewTaskItemList();
     }
     
     /**
@@ -25,7 +33,11 @@ public class ScrumBacklogModel {
      * @return the instance of ScrumBacklogModel
      */
     public static ScrumBacklogModel getInstance() {
-        return null;
+    	if (singleton == null) {
+    		singleton = new ScrumBacklogModel();
+    		
+    	} 
+    	return singleton;
     }
     
     /**
@@ -33,20 +45,37 @@ public class ScrumBacklogModel {
      * @param filename the name of the file
      */
     public void saveTasksToFile(String filename) {
-        
+    	try {
+    		TaskWriter output = new TaskWriter(filename);
+    		for (int i = 1; i < tasks.getTaskItems().size(); i++) {
+    			output.addItem(tasks.getTaskItemById(i).getXMLTask());
+    		}
+    		output.marshal();
+    	} catch (TaskIOException e) {
+    		throw new IllegalArgumentException();
+    	}
+    	
     }
+    
     /**
      * Loads a TaskItemList from a file with the specified file name.
      * @param filename the name of the file
      */
     public void loadTasksFromFile(String filename) {
-        
+    	try {
+    		TaskReader input = new TaskReader(filename);
+			tasks.addXMLTasks(input.getTasks());
+			
+		} catch (TaskIOException e) {
+			throw new IllegalArgumentException();
+		}
     }
+    
     /**
      * Creates a new TaskItemList.
      */
     public void createNewTaskItemList() {
-        
+        tasks = new TaskItemList();
     }
     
     /**
@@ -55,7 +84,13 @@ public class ScrumBacklogModel {
      * @return the TaskItems in the backlog
      */
     public Object[][] getTaskItemListAsArray() {
-        return null;
+		Object[][] array = new Object[tasks.getTaskItems().size()][3];
+    	for (int i = 1; i < tasks.getTaskItems().size(); i++) {
+			array[i][0] = i;
+			array[i][1] = tasks.getTaskItemById(i).getStateName();
+			array[i][2] = tasks.getTaskItemById(i).getTitle();
+		}
+    	return array;
     }
     
     /**
@@ -65,7 +100,28 @@ public class ScrumBacklogModel {
      * @return the TaskItems with the specified owner
      */
     public Object[][] getTaskItemListByOwnerAsArray(String owner) {
-        return null;
+    	int counter = 0;
+    	
+    	if (owner == null) {
+    		throw new IllegalArgumentException();
+    	}
+    	
+    	for (int i = 1; i < tasks.getTaskItems().size(); i++) {
+    		if (tasks.getTaskItemById(i).getOwner().equals(owner)) {
+    			counter++;
+    		}
+    	}
+    
+    	Object[][] array = new Object[counter][3];
+    	for (int i = 1; i <= counter; i++) {
+    		if (tasks.getTaskItemById(i).getOwner().equals(owner)) {
+    			array[counter][0] = i;
+    			array[counter][1] = tasks.getTaskItemById(i).getStateName();
+    			array[counter][2] = tasks.getTaskItemById(i).getTitle();
+    		}
+    	}
+    	
+    	return array;
     }
     
     /**
@@ -75,7 +131,28 @@ public class ScrumBacklogModel {
      * @return the TaskItems with the specified creator
      */
     public Object[][] getTaskItemListByCreatorAsArray(String creator) {
-        return null;
+    	int counter = 0;
+    	
+    	if (creator == null) {
+    		throw new IllegalArgumentException();
+    	}
+    	
+    	for (int i = 1; i < tasks.getTaskItems().size(); i++) {
+    		if (tasks.getTaskItemById(i).getOwner().equals(creator)) {
+    			counter++;
+    		}
+    	}
+    
+    	Object[][] array = new Object[counter][3];
+    	for (int i = 1; i <= counter; i++) {
+    		if (tasks.getTaskItemById(i).getOwner().equals(creator)) {
+    			array[counter][0] = i;
+    			array[counter][1] = tasks.getTaskItemById(i).getStateName();
+    			array[counter][2] = tasks.getTaskItemById(i).getTitle();
+    		}
+    	}
+    	
+    	return array;
     }
     
     /**
@@ -84,7 +161,7 @@ public class ScrumBacklogModel {
      * @return the TaskItem with the associated id
      */
     public TaskItem getTaskItemById(int id) {
-        return null;
+        return tasks.getTaskItemById(id);
     }
 
     /**
@@ -93,7 +170,7 @@ public class ScrumBacklogModel {
      * @param command the command to execute
      */
     public void executeCommand(int id, Command command) {
-        
+       getTaskItemById(id).update(command);
     }
 
     /**
@@ -101,7 +178,7 @@ public class ScrumBacklogModel {
      * @param id the id of the TaskItem
      */
     public void deleteTaskItemById(int id) {
-        
+        tasks.deleteTaskItemById(id);
     }
 
     /**
@@ -112,6 +189,6 @@ public class ScrumBacklogModel {
      * @param note the note of the TaskItem
      */
     public void addTaskItemToList(String title, Type type, String creator, String note) {
-        
+        tasks.addTaskItem(title, type, creator, note);
     }
 }
