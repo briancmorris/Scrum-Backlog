@@ -60,11 +60,11 @@ public class TaskItemList {
     }
 
     /**
-     * Returns the list containing the TaskItems.
-     * @return the list containing the TaskItems
+     * Returns the ArrayList containing the TaskItems.
+     * @return the ArrayList containing the TaskItems
      */
     public List<TaskItem> getTaskItems() {
-        return null;
+        return taskItemList;
     }
 
     /**
