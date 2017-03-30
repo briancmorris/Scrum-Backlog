@@ -240,6 +240,7 @@ public class TaskItemTest {
         task.setType(TaskItem.T_BUG);
         task.setState(TaskItem.BACKLOG_NAME);
         task.setCreator(VALID_CREATOR);
+        task.setId(1);
         noteItem = new NoteItem();
         noteItem.setNoteAuthor(VALID_CREATOR);
         noteItem.setNoteText(VALID_NOTE);
@@ -326,6 +327,7 @@ public class TaskItemTest {
      */
     @Test
     public void testIncrementCounter() {
+        TaskItem.setCounter(1);
         TaskItem t1 = new TaskItem(VALID_TITLE, VALID_TYPE, VALID_CREATOR, VALID_NOTE);
         assertEquals(1, t1.getTaskItemId());
         TaskItem t2 = new TaskItem(VALID_TITLE, VALID_TYPE, VALID_CREATOR, VALID_NOTE);
