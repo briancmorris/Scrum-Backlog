@@ -33,56 +33,58 @@ public class TaskItemTest {
 	 */
     @Test
     public void testTaskItemFourParams() {
+        TaskItem t = null;
     	try {
-        	TaskItem t = new TaskItem (null, VALID_TYPE, VALID_CREATOR, VALID_NOTE);
+        	t = new TaskItem (null, VALID_TYPE, VALID_CREATOR, VALID_NOTE);
         	fail();
     	} catch (IllegalArgumentException e) {
     		assertEquals("Invalid task information.", e.getMessage());
     	}
     	
     	try {
-        	TaskItem t = new TaskItem ("", VALID_TYPE, VALID_CREATOR, VALID_NOTE);
+        	t = new TaskItem ("", VALID_TYPE, VALID_CREATOR, VALID_NOTE);
         	fail();
     	} catch (IllegalArgumentException e) {
     		assertEquals("Invalid task information.", e.getMessage());
     	}
     	
     	try {
-        	TaskItem t = new TaskItem (VALID_TITLE, null, VALID_CREATOR, VALID_NOTE);
+        	t = new TaskItem (VALID_TITLE, null, VALID_CREATOR, VALID_NOTE);
         	fail();
     	} catch (IllegalArgumentException e) {
     		assertEquals("Invalid task information.", e.getMessage());
     	}
     	
     	try {
-        	TaskItem t = new TaskItem (VALID_TITLE, VALID_TYPE, null, VALID_NOTE);
+        	t = new TaskItem (VALID_TITLE, VALID_TYPE, null, VALID_NOTE);
         	fail();
     	} catch (IllegalArgumentException e) {
     		assertEquals("Invalid task information.", e.getMessage());
     	}
     	
     	try {
-        	TaskItem t = new TaskItem (VALID_TITLE, VALID_TYPE, "", VALID_NOTE);
+        	t = new TaskItem (VALID_TITLE, VALID_TYPE, "", VALID_NOTE);
         	fail();
     	} catch (IllegalArgumentException e) {
     		assertEquals("Invalid task information.", e.getMessage());
     	}
     	
     	try {
-        	TaskItem t = new TaskItem (VALID_TITLE, VALID_TYPE, VALID_CREATOR, null);
+        	t = new TaskItem (VALID_TITLE, VALID_TYPE, VALID_CREATOR, null);
         	fail();
     	} catch (IllegalArgumentException e) {
     		assertEquals("Invalid task information.", e.getMessage());
     	}
     	
     	try {
-        	TaskItem t = new TaskItem (VALID_TITLE, VALID_TYPE, VALID_CREATOR, "");
+        	t = new TaskItem (VALID_TITLE, VALID_TYPE, VALID_CREATOR, "");
         	fail();
     	} catch (IllegalArgumentException e) {
     		assertEquals("Invalid task information.", e.getMessage());
     	}
+    	assertTrue(t == null);
     	TaskItem.setCounter(1);
-    	TaskItem t = new TaskItem (VALID_TITLE, VALID_TYPE, VALID_CREATOR, VALID_NOTE);
+    	t = new TaskItem (VALID_TITLE, VALID_TYPE, VALID_CREATOR, VALID_NOTE);
     	assertEquals(VALID_TITLE, t.getTitle());
     	assertEquals(VALID_TYPE, t.getType());
     	assertEquals(VALID_CREATOR, t.getCreator());
@@ -91,7 +93,6 @@ public class TaskItemTest {
     	assertEquals(1, t.getTaskItemId());
     	assertEquals("Backlog", t.getStateName());
     	assertEquals(null, t.getOwner());
-
     }
     
     /**
@@ -516,13 +517,14 @@ public class TaskItemTest {
     	assertEquals("wgboothO", t1.getOwner());
     	
     	//Processing to Done (valid)
+    	t1.setType("KA");
     	t1.update(toD);
     	assertEquals(16, t1.getNotes().size());
     	assertEquals("wgboothO", t1.getNotes().get(15).getNoteAuthor());
     	assertEquals("sent to done", t1.getNotes().get(15).getNoteText());
     	assertEquals(TaskItem.DONE_NAME, t1.getStateName());
     	assertEquals("wgboothO", t1.getOwner());
-    	
+    	t1.setType("B");
     	//Done to null
     	try {
     		t1.update(null);
