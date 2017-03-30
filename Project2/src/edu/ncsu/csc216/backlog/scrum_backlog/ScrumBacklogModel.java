@@ -25,7 +25,7 @@ public class ScrumBacklogModel {
      * The constructor of ScrumBacklogModel
      */
     private ScrumBacklogModel() {
-        singleton.createNewTaskItemList();
+        tasks = new TaskItemList();
     }
     
     /**
@@ -47,7 +47,7 @@ public class ScrumBacklogModel {
     public void saveTasksToFile(String filename) {
     	try {
     		TaskWriter output = new TaskWriter(filename);
-    		for (int i = 1; i < tasks.getTaskItems().size(); i++) {
+    		for (int i = 1; i <= tasks.getTaskItems().size(); i++) {
     			output.addItem(tasks.getTaskItemById(i).getXMLTask());
     		}
     		output.marshal();

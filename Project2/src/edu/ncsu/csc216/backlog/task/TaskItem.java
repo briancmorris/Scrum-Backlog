@@ -123,7 +123,7 @@ public class TaskItem {
 	 * @param task the type of the task
 	 */
 	public TaskItem(Task task) {
-	    if (task.getId() < 0) {
+	    if (task.getId() <= 0) {
 	        throw new IllegalArgumentException("Invalid task information.");
 	    } else if (task.getState() == null || task.getState().equals("")) {   
 	        throw new IllegalArgumentException("Invalid task information.");
