@@ -141,7 +141,10 @@ public class TaskItem {
 	    		  (task.getState().equals(BACKLOG_NAME) || task.getState().equals(REJECTED_NAME))) {
 	    	throw new IllegalArgumentException("Invalid task information.");
 	    }
-	    
+	    this.isVerified = task.isVerified();
+	    if (task.getState().equals(DONE_NAME) && !isVerified) {
+	        throw new IllegalStateException("Invalid task information.");
+	    }
 	    setState(task.getState());
 	    setType(task.getType());
 	    this.title = task.getTitle();
@@ -479,8 +482,8 @@ public class TaskItem {
 			} else if (c.getCommand() == Command.CommandValue.VERIFY) {
 			    notes.add(new Note(owner, c.getNoteText()));
 	            state = verifyingState;
-			} else if (c.getCommand() == Command.CommandValue.COMPLETE) {
-			    notes.add(new Note(owner, c.getNoteText())); //TODO need to check task type/verification here?
+			} else if (c.getCommand() == Command.CommandValue.COMPLETE && type.equals(Type.KNOWLEDGE_ACQUISITION)) {
+			    notes.add(new Note(owner, c.getNoteText()));
 			    state = doneState;
 			} else if (c.getCommand() == Command.CommandValue.BACKLOG) {
 			    notes.add(new Note(owner, c.getNoteText()));
