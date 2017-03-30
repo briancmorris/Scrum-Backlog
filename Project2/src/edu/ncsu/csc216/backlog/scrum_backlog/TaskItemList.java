@@ -83,7 +83,7 @@ public class TaskItemList {
         List<TaskItem> sortedByOwner = new ArrayList<TaskItem>();
         for (int i = 0; i < taskItemList.size(); i++) {
             TaskItem testItem = taskItemList.get(i);
-            if (testItem.getOwner().equals(owner)) {
+            if (testItem.getOwner() != null && testItem.getOwner().equals(owner)) {
                 sortedByOwner.add(testItem);
             }
         }
@@ -99,7 +99,7 @@ public class TaskItemList {
         List<TaskItem> sortedByCreator = new ArrayList<TaskItem>();
         for (int i = 0; i < taskItemList.size(); i++) {
             TaskItem testItem = taskItemList.get(i);
-            if (testItem.getCreator().equals(creator)) {
+            if (testItem.getCreator() != null && testItem.getCreator().equals(creator)) {
                 sortedByCreator.add(testItem);
             }
         }
