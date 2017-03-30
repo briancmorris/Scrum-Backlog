@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import edu.ncsu.csc216.backlog.command.Command;
+import edu.ncsu.csc216.backlog.command.Command.CommandValue;
 import edu.ncsu.csc216.backlog.task.TaskItem.Type;
 import edu.ncsu.csc216.task.xml.NoteItem;
 import edu.ncsu.csc216.task.xml.NoteList;
@@ -345,4 +347,242 @@ public class TaskItemTest {
     	assertEquals(9, t1.getTaskItemId());
     }
     
+    /**
+     * Tests the update method.
+     */
+    @Test
+    public void testUpdate() {
+    	TaskItem.setCounter(1);
+    	TaskItem t1 = new TaskItem (VALID_TITLE, VALID_TYPE, VALID_CREATOR, VALID_NOTE);
+    	Command toB = new Command (CommandValue.BACKLOG, "wgboothB", "sent to backlog");
+    	Command toO = new Command (CommandValue.CLAIM, "wgboothO", "sent to owned");
+    	Command toP = new Command (CommandValue.PROCESS, "wgboothP", "sent to processing");
+    	Command toV = new Command (CommandValue.VERIFY, "wgboothV", "sent to verifying");
+    	Command toR = new Command (CommandValue.REJECT, "wgboothR", "sent to rejected");
+    	Command toD = new Command (CommandValue.COMPLETE, "wgboothD", "sent to done");
+    	
+    	//Backlog to null
+    	try {
+    		t1.update(null);
+    		fail();
+    	} catch (UnsupportedOperationException e) {
+    		assertEquals(null, e.getMessage());
+    	}
+    	
+    	//Backlog to Backlog (invalid)
+    	try {
+    		t1.update(toB);
+    		fail();
+    	} catch (UnsupportedOperationException e) {
+    		assertEquals(null, e.getMessage());
+    	}
+    	
+    	//Backlog to Rejected (valid)
+    	t1.update(toR);
+    	assertEquals(2, t1.getNotes().size());
+    	assertEquals("wgboothR", t1.getNotes().get(1).getNoteAuthor());
+    	assertEquals("sent to rejected", t1.getNotes().get(1).getNoteText());
+    	assertEquals(TaskItem.REJECTED_NAME, t1.getStateName());
+    	assertEquals(null, t1.getOwner());
+    	
+    	//Rejected to null
+    	try {
+    		t1.update(null);
+    		fail();
+    	} catch (UnsupportedOperationException e) {
+    		assertEquals(null, e.getMessage());
+    	}
+    	
+    	//Rejected to Backlog (valid)
+    	t1.update(toB);
+    	assertEquals(3, t1.getNotes().size());
+    	assertEquals("wgboothB", t1.getNotes().get(2).getNoteAuthor());
+    	assertEquals("sent to backlog", t1.getNotes().get(2).getNoteText());
+    	assertEquals(TaskItem.BACKLOG_NAME, t1.getStateName());
+    	assertEquals(null, t1.getOwner());
+    	
+    	//Backlog to Owned (valid)
+    	t1.update(toO);
+    	assertEquals(4, t1.getNotes().size());
+    	assertEquals("wgboothO", t1.getNotes().get(3).getNoteAuthor());
+    	assertEquals("sent to owned", t1.getNotes().get(3).getNoteText());
+    	assertEquals(TaskItem.OWNED_NAME, t1.getStateName());
+    	assertEquals("wgboothO", t1.getOwner());
+    	
+    	//Owned to null
+    	try {
+    		t1.update(null);
+    		fail();
+    	} catch (UnsupportedOperationException e) {
+    		assertEquals(null, e.getMessage());
+    	}
+    	
+    	//Owned to Owned (invalid)
+    	try {
+    		t1.update(toO);
+    		fail();
+    	} catch (UnsupportedOperationException e) {
+    		assertEquals(null, e.getMessage());
+    	}
+    	
+    	//Owned to Backlog (valid)
+    	t1.update(toB);
+    	assertEquals(5, t1.getNotes().size());
+    	assertEquals("wgboothO", t1.getNotes().get(4).getNoteAuthor());
+    	assertEquals("sent to backlog", t1.getNotes().get(4).getNoteText());
+    	assertEquals(TaskItem.BACKLOG_NAME, t1.getStateName());
+    	assertEquals(null, t1.getOwner());
+    	
+    	//Owned to Processing (valid)
+    	t1.update(toO);
+    	assertEquals(6, t1.getNotes().size());
+    	t1.update(toP);
+    	assertEquals(7, t1.getNotes().size());
+    	assertEquals("wgboothO", t1.getNotes().get(6).getNoteAuthor());
+    	assertEquals("sent to processing", t1.getNotes().get(6).getNoteText());
+    	assertEquals(TaskItem.PROCESSING_NAME, t1.getStateName());
+    	assertEquals("wgboothO", t1.getOwner());
+    	
+    	//Processing to null
+    	try {
+    		t1.update(null);
+    		fail();
+    	} catch (UnsupportedOperationException e) {
+    		assertEquals(null, e.getMessage());
+    	}
+    	
+    	//Processing to Rejected (invalid)
+    	try {
+    		t1.update(toR);
+    		fail();
+    	} catch (UnsupportedOperationException e) {
+    		assertEquals(null, e.getMessage());
+    	}
+    	
+    	//Processing to Backlog (valid)
+    	t1.update(toB);
+    	assertEquals(8, t1.getNotes().size());
+    	assertEquals("wgboothO", t1.getNotes().get(7).getNoteAuthor());
+    	assertEquals("sent to backlog", t1.getNotes().get(7).getNoteText());
+    	assertEquals(TaskItem.BACKLOG_NAME, t1.getStateName());
+    	assertEquals(null, t1.getOwner());
+    	
+    	//Owned to Rejected (Valid)
+    	t1.update(toO);
+    	assertEquals(9, t1.getNotes().size());
+    	t1.update(toR);
+    	assertEquals(10, t1.getNotes().size());
+    	assertEquals("wgboothO", t1.getNotes().get(9).getNoteAuthor());
+    	assertEquals("sent to rejected", t1.getNotes().get(9).getNoteText());
+    	assertEquals(TaskItem.REJECTED_NAME, t1.getStateName());
+    	assertEquals(null, t1.getOwner());
+    	
+    	//Processing to Verifying (Valid)
+    	t1.update(toB);
+    	assertEquals(11, t1.getNotes().size());
+    	t1.update(toO);
+    	assertEquals(12, t1.getNotes().size());
+    	t1.update(toP);
+    	assertEquals(13, t1.getNotes().size());
+    	t1.update(toV);
+    	assertEquals(14, t1.getNotes().size());
+    	assertEquals("wgboothO", t1.getNotes().get(13).getNoteAuthor());
+    	assertEquals("sent to verifying", t1.getNotes().get(13).getNoteText());
+    	assertEquals(TaskItem.VERIFYING_NAME, t1.getStateName());
+    	assertEquals("wgboothO", t1.getOwner());
+    	
+    	//Verifying to null
+    	try {
+    		t1.update(null);
+    		fail();
+    	} catch (UnsupportedOperationException e) {
+    		assertEquals(null, e.getMessage());
+    	}
+    	
+    	//Verifying to Rejected (invalid)
+    	try {
+    		t1.update(toR);
+    		fail();
+    	} catch (UnsupportedOperationException e) {
+    		assertEquals(null, e.getMessage());
+    	}
+    	
+    	//Verifying to Processing (valid) 
+    	t1.update(toP);
+    	assertEquals(15, t1.getNotes().size());
+    	assertEquals("wgboothP", t1.getNotes().get(14).getNoteAuthor());
+    	assertEquals("sent to processing", t1.getNotes().get(14).getNoteText());
+    	assertEquals(TaskItem.PROCESSING_NAME, t1.getStateName());
+    	assertEquals("wgboothO", t1.getOwner());
+    	
+    	//Processing to Done (valid)
+    	t1.update(toD);
+    	assertEquals(16, t1.getNotes().size());
+    	assertEquals("wgboothO", t1.getNotes().get(15).getNoteAuthor());
+    	assertEquals("sent to done", t1.getNotes().get(15).getNoteText());
+    	assertEquals(TaskItem.DONE_NAME, t1.getStateName());
+    	assertEquals("wgboothO", t1.getOwner());
+    	
+    	//Done to null
+    	try {
+    		t1.update(null);
+    		fail();
+    	} catch (UnsupportedOperationException e) {
+    		assertEquals(null, e.getMessage());
+    	}
+    	
+    	//Done to Rejected (invalid)
+    	try {
+    		t1.update(toR);
+    		fail();
+    	} catch (UnsupportedOperationException e) {
+    		assertEquals(null, e.getMessage());
+    	}
+    	
+    	//Done to Processing (valid)
+    	t1.update(toP);
+    	assertEquals(17, t1.getNotes().size());
+    	assertEquals("wgboothO", t1.getNotes().get(16).getNoteAuthor());
+    	assertEquals("sent to processing", t1.getNotes().get(16).getNoteText());
+    	assertEquals(TaskItem.PROCESSING_NAME, t1.getStateName());
+    	assertEquals("wgboothO", t1.getOwner());
+    	
+    	//Processing to Processing (valid)
+    	t1.update(toP);
+    	assertEquals(18, t1.getNotes().size());
+    	assertEquals("wgboothO", t1.getNotes().get(17).getNoteAuthor());
+    	assertEquals("sent to processing", t1.getNotes().get(17).getNoteText());
+    	assertEquals(TaskItem.PROCESSING_NAME, t1.getStateName());
+    	assertEquals("wgboothO", t1.getOwner());
+    	
+    	//Verifying to Done (valid)
+    	t1.update(toV);
+    	assertEquals(19, t1.getNotes().size());
+    	t1.update(toD);
+    	assertEquals(20, t1.getNotes().size());
+    	assertEquals("wgboothD", t1.getNotes().get(19).getNoteAuthor());
+    	assertEquals("sent to done", t1.getNotes().get(19).getNoteText());
+    	assertEquals(TaskItem.DONE_NAME, t1.getStateName());
+    	assertEquals("wgboothO", t1.getOwner());
+    	
+    	//Done to Backlog (valid)
+    	t1.update(toB);
+    	assertEquals(21, t1.getNotes().size());
+    	assertEquals("wgboothO", t1.getNotes().get(20).getNoteAuthor());
+    	assertEquals("sent to backlog", t1.getNotes().get(20).getNoteText());
+    	assertEquals(TaskItem.BACKLOG_NAME, t1.getStateName());
+    	assertEquals(null, t1.getOwner());
+    	
+    	//Rejected to Rejected (invalid)
+    	t1.update(toO);
+    	assertEquals(22, t1.getNotes().size());
+    	t1.update(toR);
+    	assertEquals(23, t1.getNotes().size());
+    	try {
+    		t1.update(toR);
+    		fail();
+    	} catch (UnsupportedOperationException e) {
+    		assertEquals(null, e.getMessage());
+    	}    	
+    }        
 }
