@@ -339,7 +339,7 @@ public class TaskItem {
 		Task task = new Task();
     	task.setTitle(title);
     	task.setType(getTypeString());
-    	task.setState(TaskItem.BACKLOG_NAME);
+    	task.setState(state.getStateName());
     	task.setCreator(creator);
     	task.setId(taskID);
     	task.setOwner(owner);
