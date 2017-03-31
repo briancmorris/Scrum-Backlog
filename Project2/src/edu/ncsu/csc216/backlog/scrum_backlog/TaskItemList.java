@@ -55,15 +55,17 @@ public class TaskItemList {
      * @param list a list containing TaskItem values.
      */
     public void addXMLTasks(List<Task> list) {
-        int maxID = list.get(0).getId();
-        for (int i = 0; i < list.size(); i++) {
-            TaskItem newTask = new TaskItem(list.get(i));
-            taskItemList.add(newTask);
-            if (list.get(i).getId() > maxID) {
-                maxID = list.get(i).getId();
+        if (list != null) {
+            int maxID = list.get(0).getId();
+            for (int i = 0; i < list.size(); i++) {
+                TaskItem newTask = new TaskItem(list.get(i));
+                taskItemList.add(newTask);
+                if (list.get(i).getId() > maxID) {
+                    maxID = list.get(i).getId();
+                }
             }
+            TaskItem.setCounter(maxID + 1);
         }
-        TaskItem.setCounter(maxID + 1);
     }
 
     /**
