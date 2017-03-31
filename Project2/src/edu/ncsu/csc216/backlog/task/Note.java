@@ -50,8 +50,8 @@ public class Note {
     }
     
     /**
-     * Returns a String array of size 2 with noteAuthor as the first element, noteText as the second. 
-     * @return s the String array
+     * Returns a String array of size 2 with noteAuthor as the first element and noteText as the second. 
+     * @return a String array containing the note author and note text
      */
     public String[] getNoteArray() {
         String[] s = new String[2];

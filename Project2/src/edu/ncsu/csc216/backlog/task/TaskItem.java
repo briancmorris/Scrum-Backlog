@@ -30,7 +30,7 @@ public class TaskItem {
     /** The ArrayList of notes attached to the TaskItem */
     private ArrayList<Note> notes;
 
-    /** Whether or not the TaskItem is verified */
+    /** Boolean that is true if the TaskItem has been verified */
     private boolean isVerified;
 
     /** The completion state of the TaskItem */
@@ -39,7 +39,7 @@ public class TaskItem {
 	/** The type of the TaskItem */
     private Type type;
 
-    /** A counter variable used to generate TaskItem ID's */
+    /** A counter variable used to generate TaskItem ID numbers */
     private static int counter = 1;
 
     /** The state of a TaskItem in the Backlog state */
@@ -122,13 +122,15 @@ public class TaskItem {
 	
 	/**
 	 * The constructor for TaskItem accepts an XML Task as a parameter and creates
-	 * a new TaskItem. If the Task has any invalid properties, an IllegalArgumentException
+	 * a new TaskItem. If the Task has any invalid combination of properties, an IllegalArgumentException
 	 * is thrown.
 	 * @param task the XML Task
-	 * @throws IllegalArgumentException if the Task has any invalid properties
+	 * @throws IllegalArgumentException if the Task has any invalid combination of properties
 	 */
 	public TaskItem(Task task) {
-	    if (task.getId() <= 0) {
+	    if (task == null) {
+	        throw new IllegalArgumentException("Invalid task information.");
+	    } else if (task.getId() <= 0) {
 	        throw new IllegalArgumentException("Invalid task information.");
 	    } else if (task.getState() == null || task.getState().equals("")) {   
 	        throw new IllegalArgumentException("Invalid task information.");
@@ -176,7 +178,7 @@ public class TaskItem {
 	
 	/**
 	 * Returns the current state of the task item.
-	 * @return the state
+	 * @return the current state of the task item
 	 */
 	public TaskItemState getState() {
 		return state;
@@ -184,9 +186,9 @@ public class TaskItem {
 
 	/**
 	 * Sets the current state of the TaskItem to reflect the provided state String.
-	 * If the state String is an invalid state type, an IllegalArgumentException is thrown.
-	 * @param state the state to set
-	 * @throws IllegalArgumentException if the provided state String is an invalid state type
+	 * If the state String is an invalid state type or null, an IllegalArgumentException is thrown.
+	 * @param state the provided state String
+	 * @throws IllegalArgumentException if the provided state String is an invalid state type or null
 	 */
 	protected void setState(String state) {
 	    if (state == null) {
@@ -209,9 +211,10 @@ public class TaskItem {
 	}
 	
 	/**
-	 * Sets the type of the TaskItem to the provided task type String.
-	 * @param type the provided task type
-	 * @throws IllegalArgumentException if the type String is invalid.
+	 * Sets the type of the TaskItem to the provided task type String. If the provided String is null
+	 * or the task type is invalid, an IllegalArgumentException is thrown.
+	 * @param type the provided task type String
+	 * @throws IllegalArgumentException if the type String is invalid or null
 	 */
 	protected void setType(String type) {
 	    if (type == null) {
@@ -291,8 +294,8 @@ public class TaskItem {
 	}
 	
 	/**
-	 * Returns the name of the type of the TaskItem.
-	 * @return the name of the type of the TaskItem
+	 * Returns the shortened name of the type of the TaskItem.
+	 * @return the shortened name of the type of the TaskItem
 	 */
 	public String getTypeString() {
 		if (type.equals(Type.BUG)) {
@@ -326,16 +329,16 @@ public class TaskItem {
 
 	
 	/** 
-	 * Returns the notes of the TaskItem.
-	 * @return the notes of the TaskItem
+	 * Returns the ArrayList of notes of the TaskItem.
+	 * @return the ArrayList of notes of the TaskItem
 	 */
 	public ArrayList<Note> getNotes() {
 		return notes;
 	}
 	
 	/**
-	 * Updates the TaskItem with the provided command.
-	 * @param command the command to execute
+	 * Executes the provided update command on this TaskItem.
+	 * @param command the update command to execute
 	 */
 	public void update (Command command) {
 		getState().updateState(command);
@@ -352,7 +355,9 @@ public class TaskItem {
     	task.setState(state.getStateName());
     	task.setCreator(creator);
     	task.setId(taskID);
-    	task.setOwner(owner);
+    	if (owner != null) {
+    	    task.setOwner(owner);
+    	}
     	task.setVerified(isVerified);
     	
     	NoteList noteList = new NoteList();
@@ -369,7 +374,9 @@ public class TaskItem {
 	}
 	
 	/**
-	 * Returns the list of notes as a 2D String array
+	 * Returns the list of notes as a 2D String array. The note's author
+	 * is the first element of the inner-array and the note text is the
+	 * second element of the inner-array.
 	 * @return the list of notes as a 2D String array
 	 */
 	public String[][] getNotesArray () {
@@ -430,7 +437,6 @@ public class TaskItem {
 		        notes.add(new Note(c.getNoteAuthor(), c.getNoteText()));
 		        owner = null;
 		        state = rejectedState;
-		        //TODO does owner need to be set to null? Can't find in requirements.
 		    } else {
 		        throw new UnsupportedOperationException();
 		    }

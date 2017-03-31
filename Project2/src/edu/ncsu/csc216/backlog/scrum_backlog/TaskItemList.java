@@ -42,7 +42,7 @@ public class TaskItemList {
      * @param type the type of the TaskItem
      * @param creator the creator of the TaskItem
      * @param note the note of the TaskItem
-     * @return the 
+     * @return the TaskItem's ID number
      */
     public int addTaskItem(String title, Type type, String creator, String note) {
         TaskItem newTask = new TaskItem(title, type, creator, note);
@@ -51,8 +51,8 @@ public class TaskItemList {
     }
 
     /**
-     * Adds tasks found in the given task list to the TaskItemList.
-     * @param list a list containing TaskItem values.
+     * Adds tasks found in the given XML task list to the TaskItemList.
+     * @param list a list containing XML tasks
      */
     public void addXMLTasks(List<Task> list) {
         if (list != null) {
@@ -121,9 +121,10 @@ public class TaskItemList {
     }
 
     /**
-     * Returns the TaskItem that has the specified id.
-     * @param id the id of the TaskItem
-     * @return the TaskItem with the specified id or null if it isn't found in the list
+     * Returns the TaskItem that has the specified ID number or null if the TaskItem
+     * does not exist in the list.
+     * @param id the ID number of the TaskItem
+     * @return the TaskItem with the specified ID number or null if it does not exist in the list
      */
     public TaskItem getTaskItemById(int id) {
         for (int i = 0; i < taskItemList.size(); i++) {
@@ -136,8 +137,8 @@ public class TaskItemList {
     }
 
     /**
-     * Deletes the TaskItem that has the specified id from the list.
-     * @param id the specified id of the TaskItem
+     * Deletes the TaskItem that has the specified ID number from the list.
+     * @param id the ID number of the TaskItem
      */
     public void deleteTaskItemById(int id) {
         if (getTaskItemById(id) != null) {
@@ -146,8 +147,8 @@ public class TaskItemList {
     }
 
     /**
-     * Executes the specified command on the TaskItem that has the specified id
-     * @param id the id of the TaskItem
+     * Executes the given command on the TaskItem that has the specified ID number.
+     * @param id the ID number of the TaskItem
      * @param command the command to perform
      */
     public void executeCommand(int id, Command command) {

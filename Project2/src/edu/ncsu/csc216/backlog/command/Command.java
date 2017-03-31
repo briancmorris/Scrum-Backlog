@@ -8,7 +8,7 @@ package edu.ncsu.csc216.backlog.command;
  */
 public class Command {
 
-	/** The details provided in a note */
+	/** The update details provided in a note */
 	private String note;
 	/** The author of the note */
 	private String noteAuthor;
@@ -47,8 +47,8 @@ public class Command {
 	}
 	
 	/**
-	 * Returns the CommandValue of this command.
-	 * @return the CommandValue of this command
+	 * Returns the CommandValue of this Command.
+	 * @return the CommandValue of this Command
 	 */
 	public CommandValue getCommand () {
 		return c;

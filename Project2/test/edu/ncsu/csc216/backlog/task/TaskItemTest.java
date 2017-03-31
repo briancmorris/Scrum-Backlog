@@ -13,26 +13,25 @@ import edu.ncsu.csc216.task.xml.Task;
 
 /**
  * Tests the TaskItem class for completion.
- * 
  * @author Brian Morris
  * @author Walker Booth
  *
  */
 public class TaskItemTest {
 
-    /** An example of a valid task title */
+    /** An example of a valid task title for testing */
     private static final String VALID_TITLE = "Bug Fix";
-    /** An example of a valid task type */
+    /** An example of a valid task type for testing */
     private static final Type VALID_TYPE = Type.BUG;
-    /** An example of a valid creator of a task */
+    /** An example of a valid creator of a task for testing */
     private static final String VALID_CREATOR = "wgbooth";
-    /** An example of a valid note for a task */
+    /** An example of a valid note for a task for testing */
     private static final String VALID_NOTE = "You've got a bug!";
-    /** An example of a valid state for a task */
+    /** An example of a valid state for a task for testing */
     private static final String VALID_STATE = "Owned";
 
     /**
-     * Tests the full constructor for a TaskItem.
+     * Tests the four parameter constructor of TaskItem.
      */
     @Test
     public void testTaskItemFourParams() {
@@ -99,7 +98,7 @@ public class TaskItemTest {
     }
 
     /**
-     * Tests the constructor that takes a parameter of type Task
+     * Tests the constructor that accepts a Task parameter.
      */
     @Test
     @SuppressWarnings("unused")

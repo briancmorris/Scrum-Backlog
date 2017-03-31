@@ -12,7 +12,7 @@ import edu.ncsu.csc216.task.xml.TaskWriter;
 /**
  * The ScrumBacklogModel class maintains the current ScrumBacklog using a
  * TaskItemList. A new TaskItemList can be loaded from files, new TaskItems may be added,
- * and existing TaskItems may be updated.
+ * and existing TaskItems may be updated. If desired, the TaskItemList can be saved as a file.
  * @author Walker Booth
  * @author Brian Morris
  *
@@ -21,19 +21,20 @@ public class ScrumBacklogModel {
 
 	/** The single instance of the ScrumBacklogModel */
 	private static ScrumBacklogModel singleton;
-	/** The list of Task Items */
+	/** The TaskItemList to store TaskItems */
 	private TaskItemList tasks;
 	
     /**
-     * The constructor of ScrumBacklogModel
+     * The constructor of ScrumBacklogModel initializes the instance with an
+     * empty TaskItemList.
      */
     private ScrumBacklogModel() {
         tasks = new TaskItemList();
     }
     
     /**
-     * Returns the instance of ScrumBacklogModel.
-     * @return the instance of ScrumBacklogModel
+     * Returns the only instance of ScrumBacklogModel.
+     * @return the only instance of ScrumBacklogModel
      */
     public static ScrumBacklogModel getInstance() {
     	if (singleton == null) {
@@ -49,7 +50,7 @@ public class ScrumBacklogModel {
      * writing to the output file.
      * @param filename the name of the file
      * @throws IllegalArgumentException if the filename is null, the list is empty, or there was an error
-     * when writing to the output file.
+     *         when writing to the output file.
      */
     public void saveTasksToFile(String filename) {
     	if (tasks.getTaskItems().size() == 0) {
@@ -97,10 +98,11 @@ public class ScrumBacklogModel {
     }
     
     /**
-     * Returns a 2D array of objects containing the TaskItems in the
-     * backlog with the id in the first slot, the state name in the second
-     * slot, and the title in the third slot.
-     * @return the TaskItems in the backlog
+     * Returns a 2D array of objects containing information about the TaskItems in the
+     * backlog with the ID number in the first slot, the state name in the second
+     * slot, and the title in the third slot of the inner-array.
+     * @return the 2D array of objects containing information about the TaskItems stored
+     *         in the TaskItemList.
      */
     public Object[][] getTaskItemListAsArray() {
         ArrayList<TaskItem> list = (ArrayList<TaskItem>) tasks.getTaskItems();
@@ -115,10 +117,11 @@ public class ScrumBacklogModel {
     
     /**
      * Returns a 2D array of objects containing the TaskItems that have
-     * the specified owner with the id in the first slot, the state name in the
-     * second slot, and the title in the third slot.
-     * @param owner the creator of the TaskItems
-     * @return the TaskItems with the specified owner
+     * the specified owner with the ID number in the first slot, the state name in the
+     * second slot, and the title in the third slot of the inner-array.
+     * @param owner the owner of the TaskItems
+     * @return the 2D array of objects containing information about the TaskItems
+     *         with the specified owner.
      */
     public Object[][] getTaskItemListByOwnerAsArray(String owner) {
     	ArrayList<TaskItem> list = (ArrayList<TaskItem>) tasks.getTaskItemsByOwner(owner);
@@ -133,10 +136,11 @@ public class ScrumBacklogModel {
     
     /**
      * Returns a 2D array of objects containing the TaskItems that have
-     * the specified creator with the id in the first slot, the state name in
-     * the second slot, and the title in the third slot.
+     * the specified creator with the ID number in the first slot, the state name in
+     * the second slot, and the title in the third slot of the inner-array.
      * @param creator the creator of the TaskItems
-     * @return the TaskItems with the specified creator
+     * @return the 2D array of objects containing information about the TaskItems
+     *         with the specified creator.
      */
     public Object[][] getTaskItemListByCreatorAsArray(String creator) {
     	ArrayList<TaskItem> list = (ArrayList<TaskItem>) tasks.getTasksByCreator(creator);
@@ -150,8 +154,8 @@ public class ScrumBacklogModel {
     }
     
     /**
-     * Returns the TaskItem with associated id.
-     * @param id the id of the TaskItem
+     * Returns the TaskItem with associated ID number.
+     * @param id the ID number of the TaskItem
      * @return the TaskItem with the associated id
      */
     public TaskItem getTaskItemById(int id) {
@@ -159,8 +163,8 @@ public class ScrumBacklogModel {
     }
 
     /**
-     * Executes the specified command on the TaskItem with the associated id.
-     * @param id the id of the TaskItem
+     * Executes the given command on the TaskItem with provided ID number.
+     * @param id the ID number of the TaskItem
      * @param command the command to execute
      */
     public void executeCommand(int id, Command command) {
@@ -168,15 +172,15 @@ public class ScrumBacklogModel {
     }
 
     /**
-     * Deletes a TaskItem from the list with the specified id.
-     * @param id the id of the TaskItem
+     * Deletes a TaskItem from the list with the given ID number.
+     * @param id the ID number of the TaskItem
      */
     public void deleteTaskItemById(int id) {
         tasks.deleteTaskItemById(id);
     }
 
     /**
-     * Adds a new TaskItem to the list of TaskItems.
+     * Adds a new TaskItem to the TaskItemList.
      * @param title the title of the TaskItem
      * @param type the type of the TaskItem
      * @param creator the creator of the TaskItem

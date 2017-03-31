@@ -231,8 +231,8 @@ public class ScrumBacklogModelTest {
     
     /**
 	 * Helper method to compare two files for the same contents
-	 * @param expFile expected output
-	 * @param actFile actual output
+	 * @param expFile expected output filename
+	 * @param actFile actual output filename
 	 */
 	private void checkFiles(String expFile, String actFile) {
 		try {

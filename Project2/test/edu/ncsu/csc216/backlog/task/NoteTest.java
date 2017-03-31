@@ -5,16 +5,16 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
- * Tests the note class.
+ * Tests the Note class for completion.
  * @author Brian Morris
  * @author Walker Booth
  *
  */
 public class NoteTest {
 
-	/** Example of a valid note author */
+	/** Example of a valid note author used for testing */
     private static final String VALID_NOTE_AUTHOR = "wgbooth";
-    /** Example of a valid note */
+    /** Example of a valid note used for testing*/
 	private static final String VALID_NOTE_TEXT = "This is an example note.";
 
 	/**
