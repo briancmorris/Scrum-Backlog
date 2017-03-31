@@ -71,6 +71,16 @@ public class CommandTest {
     	assertEquals(VALID_COMMAND, c.getCommand());
     	assertEquals(VALID_NOTE_AUTHOR, c.getNoteAuthor());
     	assertEquals(VALID_NOTE_TEXT, c.getNoteText());
+    	c = new Command(Command.CommandValue.CLAIM, VALID_NOTE_AUTHOR, VALID_NOTE_TEXT);
+    	assertEquals(Command.CommandValue.CLAIM, c.getCommand());
+    	c = new Command(Command.CommandValue.COMPLETE, VALID_NOTE_AUTHOR, VALID_NOTE_TEXT);
+        assertEquals(Command.CommandValue.COMPLETE, c.getCommand());
+        c = new Command(Command.CommandValue.PROCESS, VALID_NOTE_AUTHOR, VALID_NOTE_TEXT);
+        assertEquals(Command.CommandValue.PROCESS, c.getCommand());
+        c = new Command(Command.CommandValue.REJECT, VALID_NOTE_AUTHOR, VALID_NOTE_TEXT);
+        assertEquals(Command.CommandValue.REJECT, c.getCommand());
+        c = new Command(Command.CommandValue.VERIFY, VALID_NOTE_AUTHOR, VALID_NOTE_TEXT);
+        assertEquals(Command.CommandValue.VERIFY, c.getCommand());
     	
     }
 
