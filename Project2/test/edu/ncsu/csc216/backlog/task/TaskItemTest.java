@@ -693,6 +693,11 @@ public class TaskItemTest {
     public void testGetType() {
         TaskItem test = new TaskItem(VALID_TITLE, VALID_TYPE, VALID_CREATOR, VALID_NOTE);
         assertTrue(test.getType().equals(TaskItem.Type.BUG));
+        //enumeration coverage
+        TaskItem.Type.valueOf(TaskItem.Type.BUG.toString());
+        TaskItem.Type.valueOf(TaskItem.Type.FEATURE.toString());
+        TaskItem.Type.valueOf(TaskItem.Type.KNOWLEDGE_ACQUISITION.toString());
+        TaskItem.Type.valueOf(TaskItem.Type.TECHNICAL_WORK.toString());
     }
     
     /**
