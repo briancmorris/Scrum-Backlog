@@ -9,9 +9,10 @@ import edu.ncsu.csc216.task.xml.TaskIOException;
 import edu.ncsu.csc216.task.xml.TaskReader;
 import edu.ncsu.csc216.task.xml.TaskWriter;
 
-//TODO add descriptions to Javadoc
 /**
- * Add descriptions.
+ * The ScrumBacklogModel class maintains the current ScrumBacklog using a
+ * TaskItemList. A new TaskItemList can be loaded from files, new TaskItems may be added,
+ * and existing TaskItems may be updated.
  * @author Walker Booth
  * @author Brian Morris
  *
@@ -43,8 +44,12 @@ public class ScrumBacklogModel {
     }
     
     /**
-     * Saves a TaskItemList to a file with the specified file name.
+     * Saves a TaskItemList to a file with the specified file name. Throws an IllegalArgumentException
+     * if there are no TaskItems in the list, the filename is null, or there was an error when
+     * writing to the output file.
      * @param filename the name of the file
+     * @throws IllegalArgumentException if the filename is null, the list is empty, or there was an error
+     * when writing to the output file.
      */
     public void saveTasksToFile(String filename) {
     	if (tasks.getTaskItems().size() == 0) {
@@ -68,15 +73,18 @@ public class ScrumBacklogModel {
     }
     
     /**
-     * Loads a TaskItemList from a file with the specified file name.
+     * Loads a TaskItemList from a file with the specified file name. Throws an
+     * IllegalArgumentException if there is an error when loading the tasks from
+     * a file.
      * @param filename the name of the file
+     * @throws IllegalArgumentException if there is an error when loading the tasks from a file
      */
     public void loadTasksFromFile(String filename) {
     	try {
     		TaskReader input = new TaskReader(filename);
 			tasks.addXMLTasks(input.getTasks());
 			
-		} catch (Exception e) {
+		} catch (TaskIOException e) {
 			throw new IllegalArgumentException();
 		}
     }
@@ -90,24 +98,25 @@ public class ScrumBacklogModel {
     
     /**
      * Returns a 2D array of objects containing the TaskItems in the
-     * backlog.
+     * backlog with the id in the first slot, the state name in the second
+     * slot, and the title in the third slot.
      * @return the TaskItems in the backlog
      */
     public Object[][] getTaskItemListAsArray() {
-		Object[][] array = new Object[tasks.getTaskItems().size()][3];
-    	for (int i = 1; i <= tasks.getTaskItems().size(); i++) {
-			if (!(tasks.getTaskItemById(i) == null)) {
-				array[i - 1][0] = tasks.getTaskItemById(i).getTaskItemId();
-				array[i - 1][1] = tasks.getTaskItemById(i).getStateName();
-				array[i - 1][2] = tasks.getTaskItemById(i).getTitle();
-			}
+        ArrayList<TaskItem> list = (ArrayList<TaskItem>) tasks.getTaskItems();
+		Object[][] array = new Object[list.size()][3];
+    	for (int i = 0; i < list.size(); i++) {
+			array[i][0] = tasks.getTaskItems().get(i).getTaskItemId();
+			array[i][1] = tasks.getTaskItems().get(i).getStateName();
+			array[i][2] = tasks.getTaskItems().get(i).getTitle();
 		}
     	return array;
     }
     
     /**
      * Returns a 2D array of objects containing the TaskItems that have
-     * the specified owner.
+     * the specified owner with the id in the first slot, the state name in the
+     * second slot, and the title in the third slot.
      * @param owner the creator of the TaskItems
      * @return the TaskItems with the specified owner
      */
@@ -124,7 +133,8 @@ public class ScrumBacklogModel {
     
     /**
      * Returns a 2D array of objects containing the TaskItems that have
-     * the specified creator.
+     * the specified creator with the id in the first slot, the state name in
+     * the second slot, and the title in the third slot.
      * @param creator the creator of the TaskItems
      * @return the TaskItems with the specified creator
      */
@@ -149,7 +159,7 @@ public class ScrumBacklogModel {
     }
 
     /**
-     * Executes the specified command on the TaskItem with the specified id.
+     * Executes the specified command on the TaskItem with the associated id.
      * @param id the id of the TaskItem
      * @param command the command to execute
      */

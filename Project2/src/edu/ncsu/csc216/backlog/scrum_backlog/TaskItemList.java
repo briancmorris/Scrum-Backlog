@@ -8,9 +8,9 @@ import edu.ncsu.csc216.backlog.task.TaskItem;
 import edu.ncsu.csc216.backlog.task.TaskItem.Type;
 import edu.ncsu.csc216.task.xml.Task;
 
-//TODO update all Javadoc to be descriptive.
 /**
- * Add descriptions.
+ * The TaskItemList class maintains an ArrayList of TaskItems and various methods
+ * for sorting the TaskItems as desired.
  * @author Brian Morris
  * @author Walker Booth
  */
@@ -75,9 +75,11 @@ public class TaskItemList {
     }
 
     /**
-     * Returns a list containing the TaskItems sorted by the specified owner.
+     * Returns a list containing the TaskItems sorted by the specified owner. Throws an
+     * IllegalArgumentException if the owner is null.
      * @param owner the owner of the TaskItems
      * @return a list containing the TaskItems sorted by the specified owner
+     * @throws IllegalArgumentException if owner is null
      */
     public List<TaskItem> getTaskItemsByOwner(String owner) {
         if (owner == null) {
@@ -95,9 +97,11 @@ public class TaskItemList {
     }
 
     /**
-     * Returns a list containing the TaskItems sorted by the specified creator.
+     * Returns a list containing the TaskItems sorted by the specified creator. Throws an
+     * IllegalArgumentException if creator is null.
      * @param creator the creator of the TaskItems
      * @return a list containing the TaskItems sorted by the specified creator
+     * @throws IllegalArgumentException if creator is null
      */
     public List<TaskItem> getTasksByCreator(String creator) {
         if (creator == null) {
@@ -107,7 +111,7 @@ public class TaskItemList {
     	List<TaskItem> sortedByCreator = new ArrayList<TaskItem>();
         for (int i = 0; i < taskItemList.size(); i++) {
             TaskItem testItem = taskItemList.get(i);
-            if (testItem.getCreator() != null && testItem.getCreator().equals(creator)) {
+            if (testItem != null && testItem.getCreator().equals(creator)) {
                 sortedByCreator.add(testItem);
             }
         }
@@ -117,7 +121,7 @@ public class TaskItemList {
     /**
      * Returns the TaskItem that has the specified id.
      * @param id the id of the TaskItem
-     * @return the TaskItem with the specified id
+     * @return the TaskItem with the specified id or null if it isn't found in the list
      */
     public TaskItem getTaskItemById(int id) {
         for (int i = 0; i < taskItemList.size(); i++) {
@@ -134,11 +138,8 @@ public class TaskItemList {
      * @param id the specified id of the TaskItem
      */
     public void deleteTaskItemById(int id) {
-        for (int i = 0; i < taskItemList.size(); i++) {
-            TaskItem testItem = taskItemList.get(i);
-            if (testItem != null && testItem.getTaskItemId() == id) {
-                taskItemList.remove(i);
-            }
+        if (getTaskItemById(id) != null) {
+            taskItemList.remove(getTaskItemById(id));
         }
     }
 
@@ -148,11 +149,8 @@ public class TaskItemList {
      * @param command the command to perform
      */
     public void executeCommand(int id, Command command) {
-        for (int i = 0; i < taskItemList.size(); i++) {
-            TaskItem testItem = taskItemList.get(i);
-            if (testItem != null && testItem.getTaskItemId() == id) {
-                testItem.update(command);
-            }
+        if (getTaskItemById(id) != null) {
+            getTaskItemById(id).update(command);
         }
     }
 }

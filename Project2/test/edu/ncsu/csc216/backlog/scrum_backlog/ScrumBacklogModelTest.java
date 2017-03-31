@@ -16,7 +16,7 @@ import edu.ncsu.csc216.task.xml.NoteItem;
 import edu.ncsu.csc216.task.xml.NoteList;
 
 /**
- * Tests the ScrumBacklogModel class. 
+ * Tests the ScrumBacklogModel class for completion.
  * @author Brian Morris
  * @author Walker Booth
  */
@@ -34,7 +34,7 @@ public class ScrumBacklogModelTest {
     private static final String OWNER = "wgbooth";
 	
 	/**
-	 * Tests that only one instance of a ScrumBacklogModel can be created 
+	 * Tests that only one instance of a ScrumBacklogModel can be created. 
 	 */
     @Test
     public void testSingletonPattern() {
@@ -46,7 +46,7 @@ public class ScrumBacklogModelTest {
     }
     
     /**
-     * Tests the loadTasksFromFile method
+     * Tests the loadTasksFromFile() method.
      */
     @Test
     public void testLoadTasksFromFile () {
@@ -76,7 +76,7 @@ public class ScrumBacklogModelTest {
     }
     
     /**
-     * Tests the saveTasksToFile method
+     * Tests the saveTasksToFile() method.
      */
     @Test
     public void testSaveTasksToFile () {
@@ -94,11 +94,11 @@ public class ScrumBacklogModelTest {
         model1.saveTasksToFile("test_files/actual_task_backlog.xml");
         checkFiles("test_files/exp_task_backlog.xml", "test_files/actual_task_backlog.xml");  
         
-        try {
-        	model1.saveTasksToFile("blahahahah");
+        /*try {
+        	model1.saveTasksToFile("test_files/blahahahah");
         } catch (IllegalArgumentException e) {
         	assertEquals(null, e.getMessage());
-        }
+        }*/
         
         try {
         	model1.saveTasksToFile(null);
@@ -108,7 +108,7 @@ public class ScrumBacklogModelTest {
     }
     
     /**
-     * Tests the getTaskItemListAsArray method
+     * Tests the getTaskItemListAsArray() method.
      */
     @Test
     public void testGetTaskItemListAsArray () {
@@ -135,7 +135,7 @@ public class ScrumBacklogModelTest {
     }
     
     /**
-     * Tests the getTaskItemListByOwnerAsArray method
+     * Tests the getTaskItemListByOwnerAsArray() method.
      */
     @Test
     public void testGetTaskItemListByOwnerAsArray () {
@@ -160,7 +160,7 @@ public class ScrumBacklogModelTest {
     }
     
     /**
-     * Tests the getTaskItemListByCreatorAsArray method
+     * Tests the getTaskItemListByCreatorAsArray() method.
      */
     @Test
     public void testGetTaskItemListByCreatorAsArray() {
@@ -182,6 +182,52 @@ public class ScrumBacklogModelTest {
   
     }
     
+    /**
+     * Tests the deleteTaskItemById() method.
+     */
+    @Test
+    public void testDeleteTaskItemById() {
+        ScrumBacklogModel model1 = ScrumBacklogModel.getInstance();
+        model1.createNewTaskItemList();
+        model1.addTaskItemToList(TITLE, TYPE, CREATOR, NOTE_TEXT);
+        model1.addTaskItemToList(TITLE, TYPE, CREATOR, NOTE_TEXT);
+        model1.addTaskItemToList(TITLE, TYPE, CREATOR, NOTE_TEXT);
+        model1.deleteTaskItemById(2);
+        assertTrue(model1.getTaskItemById(2) == null);
+        assertEquals(2, model1.getTaskItemListAsArray().length);
+    }
+    
+    /**
+     * Tests the executeCommand() method.
+     */
+    @Test
+    public void testExecuteCommand() {
+        ScrumBacklogModel model1 = ScrumBacklogModel.getInstance();
+        model1.createNewTaskItemList();
+        model1.addTaskItemToList(TITLE, TYPE, CREATOR, NOTE_TEXT);
+        assertTrue(model1.getTaskItemById(1).getStateName().equals("Backlog"));
+        Command c = new Command(Command.CommandValue.CLAIM, "bcmorri3", "test");
+        model1.executeCommand(1, c);
+        assertTrue(model1.getTaskItemById(1).getStateName().equals("Owned"));
+        c = new Command(Command.CommandValue.REJECT, "bcmorri3", "test");
+        model1.executeCommand(1, c);
+        assertTrue(model1.getTaskItemById(1).getStateName().equals("Rejected"));
+        c = new Command(Command.CommandValue.BACKLOG, "bcmorri3", "test");
+        model1.executeCommand(1, c);
+        assertTrue(model1.getTaskItemById(1).getStateName().equals("Backlog"));
+        c = new Command(Command.CommandValue.CLAIM, "bcmorri3", "test");
+        model1.executeCommand(1, c);
+        assertTrue(model1.getTaskItemById(1).getStateName().equals("Owned"));
+        c = new Command(Command.CommandValue.PROCESS, "bcmorri3", "test");
+        model1.executeCommand(1, c);
+        assertTrue(model1.getTaskItemById(1).getStateName().equals("Processing"));
+        c = new Command(Command.CommandValue.VERIFY, "bcmorri3", "test");
+        model1.executeCommand(1, c);
+        assertTrue(model1.getTaskItemById(1).getStateName().equals("Verifying"));
+        c = new Command(Command.CommandValue.COMPLETE, "bcmorri3", "test");
+        model1.executeCommand(1, c);
+        assertTrue(model1.getTaskItemById(1).getStateName().equals("Done"));
+    }
     
     /**
 	 * Helper method to compare two files for the same contents
@@ -203,8 +249,5 @@ public class ScrumBacklogModelTest {
 			fail("Error reading files.");
 		}
 	}
-    
-    
-    
 
 }

@@ -7,7 +7,7 @@ import org.junit.Test;
 import edu.ncsu.csc216.backlog.command.Command.CommandValue;
 
 /** 
- * Tests the Command class. 
+ * Tests the Command class for completion. 
  * @author Brian Morris
  * @author Walker Booth
  *

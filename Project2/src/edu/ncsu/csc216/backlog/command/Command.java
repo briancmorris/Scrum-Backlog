@@ -1,8 +1,10 @@
 package edu.ncsu.csc216.backlog.command;
 
 /**
- * Holds data for objects of type Command. 
+ * The Command class stores information about an update command that will
+ * be provided to a TaskItem to update its state. 
  * @author Walker Booth
+ * @author Brian Morris
  */
 public class Command {
 
@@ -13,14 +15,18 @@ public class Command {
 	/** The value of the command */
 	private CommandValue c;
 	
-	/** Contains the types of state that a task can have */
+	/**
+	 * Contains the types of commands a TaskItem may be given.
+	 */
 	public static enum CommandValue { BACKLOG, CLAIM, PROCESS, VERIFY, COMPLETE, REJECT }
 	
 	/**
-	 * The constructor for the command class
+	 * The constructor for the command class initializes values for all fields. If any
+	 * of the parameters are null or an empty String, an IllegalArgumentException is thrown.
 	 * @param c the current CommandValue for the given command
 	 * @param noteAuthor the author of the note
 	 * @param noteText the text of the note
+	 * @throws IllegalArgumentException if any of the provided parameters are null or an empty String.
 	 */
 	public Command(CommandValue c, String noteAuthor, String noteText) {
 		if (c == null) {
@@ -41,24 +47,24 @@ public class Command {
 	}
 	
 	/**
-	 * Returns the value of this command
-	 * @return commandValue the value of this command
+	 * Returns the CommandValue of this command.
+	 * @return the CommandValue of this command
 	 */
 	public CommandValue getCommand () {
 		return c;
 	}
 	
 	/**
-	 * Returns the note String
-	 * @return note the note string
+	 * Returns the note text of this Command.
+	 * @return the note text of this Command
 	 */
 	public String getNoteText () {
 		return note;
 	}
 	
 	/**
-	 * Returns the note author String
-	 * @return noteAuthor the note author String
+	 * Returns the author of the note.
+	 * @return the author of the note
 	 */
 	public String getNoteAuthor () {
 		return noteAuthor;

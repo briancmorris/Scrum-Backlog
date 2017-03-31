@@ -12,7 +12,7 @@ import edu.ncsu.csc216.task.xml.NoteList;
 import edu.ncsu.csc216.task.xml.Task;
 
 /**
- * Tests the TaskItem class
+ * Tests the TaskItem class for completion.
  * 
  * @author Brian Morris
  * @author Walker Booth
@@ -670,4 +670,51 @@ public class TaskItemTest {
         assertTrue(test2.getNoteList().getNotes().get(0).getNoteAuthor().equals(VALID_CREATOR));
         assertTrue(test2.getNoteList().getNotes().get(0).getNoteText().equals(VALID_NOTE));
     }
+    
+    /**
+     * Tests the getTypeFullString() method.
+     */
+    @Test
+    public void testGetTypeFullString() {
+        TaskItem test = new TaskItem(VALID_TITLE, VALID_TYPE, VALID_CREATOR, VALID_NOTE);
+        assertTrue(test.getTypeFullString().equals("Bug"));
+        test = new TaskItem(VALID_TITLE, Type.FEATURE, VALID_CREATOR, VALID_NOTE);
+        assertTrue(test.getTypeFullString().equals("Feature"));
+        test = new TaskItem(VALID_TITLE, Type.KNOWLEDGE_ACQUISITION, VALID_CREATOR, VALID_NOTE);
+        assertTrue(test.getTypeFullString().equals("Knowledge Acquisition"));
+        test = new TaskItem(VALID_TITLE, Type.TECHNICAL_WORK, VALID_CREATOR, VALID_NOTE);
+        assertTrue(test.getTypeFullString().equals("Technical Work"));
+    }
+    
+    /**
+     * Tests the getType() method.
+     */
+    @Test
+    public void testGetType() {
+        TaskItem test = new TaskItem(VALID_TITLE, VALID_TYPE, VALID_CREATOR, VALID_NOTE);
+        assertTrue(test.getType().equals(TaskItem.Type.BUG));
+    }
+    
+    /**
+     * Tests the getState() method.
+     */
+    /*@Test
+    public void testGetState() {
+        TaskItem test = new TaskItem(VALID_TITLE, VALID_TYPE, VALID_CREATOR, VALID_NOTE);
+        assertTrue(test.getState().getStateName().equals("Backlog"));
+    }*/
+    
+    /**
+     * Tests the getNotesArray() method.
+     */
+    /*@Test
+    public void testGetNotesArray() {
+        TaskItem test = new TaskItem(VALID_TITLE, VALID_TYPE, VALID_CREATOR, VALID_NOTE);
+        String[][] testArray = new String[test.getNotes().size()][2];
+        assertTrue(testArray.length == 1);
+        assertTrue(testArray[0][0].equals(VALID_CREATOR));
+        assertTrue(testArray[0][1].equals(VALID_NOTE));
+        Command c = new Command(Command.CommandValue.CLAIM, VALID_CREATOR, VALID_NOTE);
+        test.update(c);
+    }*/
 }

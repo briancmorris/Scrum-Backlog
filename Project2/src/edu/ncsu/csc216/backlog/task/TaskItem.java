@@ -15,87 +15,89 @@ import edu.ncsu.csc216.task.xml.Task;
  */
 public class TaskItem {
 
-	/** ID of the task */
+	/** ID number of the TaskItem */
 	private int taskID;
 	
-	/** Title of the task */
+	/** Title of the TaskItem */
     private String title;
 
-    /** Creator of the task */
+    /** Creator of the TaskItem */
     private String creator;
 
-    /** Owner of the task */
+    /** Owner of the TaskItem */
     private String owner;
 
-    /** The ArrayList of notes attached to a task */
+    /** The ArrayList of notes attached to the TaskItem */
     private ArrayList<Note> notes;
 
-    /** Whether or note the task is verified */
+    /** Whether or not the TaskItem is verified */
     private boolean isVerified;
 
-    /** State of the task */
+    /** The completion state of the TaskItem */
 	private TaskItemState state;
 	
-	/** The type of task */
+	/** The type of the TaskItem */
     private Type type;
 
-    /** A counter variable */
+    /** A counter variable used to generate TaskItem ID's */
     private static int counter = 1;
 
-    /** The state of backlog for a task */
+    /** The state of a TaskItem in the Backlog state */
 	private final TaskItemState backlogState = new BacklogState();
 	
-	/** The state of owned for a task */
+	/** The state of a TaskItem in the Owned state */
 	private final TaskItemState ownedState = new OwnedState();
 	
-	/** The state of processing for a task */
+	/** The state of a TaskItem in the Processing state */
 	private final TaskItemState processingState = new ProcessingState();
 	
-	/** The state of verifying for a task */
+	/** The state of a TaskItem in the Verifying state */
 	private final TaskItemState verifyingState = new VerifyingState();
 	
-	/** The state of done for a task */
+	/** The state of a TaskItem in the Done state */
 	private final TaskItemState doneState = new DoneState();
 	
-	/** The state of rejected for a task */
+	/** The state of a TaskItem in the Rejected state */
 	private final TaskItemState rejectedState = new RejectedState();
 	
-	/** The string representation of backlog */
+	/** The string representation of the Backlog state */
 	public static final String BACKLOG_NAME = "Backlog";
 	
-	/** the string representation of owned */
+	/** the string representation of the Owned state */
 	public static final String OWNED_NAME = "Owned";
 	
-	/** The string representation of processing */
+	/** The string representation of the Processing state */
 	public static final String PROCESSING_NAME = "Processing";
 	
-	/** The string representation of verifying */
+	/** The string representation of the Verifying state */
 	public static final String VERIFYING_NAME = "Verifying";
 	
-	/** The string representation of done */
+	/** The string representation of the Done state */
 	public static final String DONE_NAME = "Done";
 	
-	/** The string representation of rejected */
+	/** The string representation of the Rejected state */
 	public static final String REJECTED_NAME = "Rejected";
 	
-	/** The string representation of the feature type */
+	/** The string representation of the Feature type */
 	public static final String T_FEATURE = "F";
 	
-	/** The string representation of the bug type */
+	/** The string representation of the Bug type */
 	public static final String T_BUG = "B";
 	
-	/** The string representation of the technical work type */
+	/** The string representation of the Technical Work type */
 	public static final String T_TECHNICAL_WORK = "TW";
 	
-	/** The string representation of the knowledge acquisition type */
+	/** The string representation of the Knowledge Acquisition type */
 	public static final String T_KNOWLEDGE_ACQUISITION = "KA";
 	
 	/**
-	 * Constructor for TaskItem
+	 * The constructor for TaskItem creates a new TaskItem with values for all fields.
+	 * If any of the parameters are null or an empty String, an IllegalArgumentException is thrown.
 	 * @param title the title of the task  
 	 * @param type the type of the task
 	 * @param creator the creator of the task
 	 * @param note the note attached to the task
+	 * @throws IllegalArgumentException if any of the parameters are null or an empty String
 	 */
 	public TaskItem(String title, Type type, String creator, String note) {
 		if (title == null || title.equals("")) {
@@ -119,8 +121,11 @@ public class TaskItem {
 	}
 	
 	/**
-	 * Alternate constructor for TaskItem
-	 * @param task the type of the task
+	 * The constructor for TaskItem accepts an XML Task as a parameter and creates
+	 * a new TaskItem. If the Task has any invalid properties, an IllegalArgumentException
+	 * is thrown.
+	 * @param task the XML Task
+	 * @throws IllegalArgumentException if the Task has any invalid properties
 	 */
 	public TaskItem(Task task) {
 	    if (task.getId() <= 0) {
@@ -163,14 +168,14 @@ public class TaskItem {
 	}
 	
 	/**
-	 * Increments the counter variable
+	 * Increments the counter variable.
 	 */
 	public static void incrementCounter() {
 		counter++;
 	}
 	
 	/**
-	 * Returns the current state of the task item
+	 * Returns the current state of the task item.
 	 * @return the state
 	 */
 	public TaskItemState getState() {
@@ -178,8 +183,10 @@ public class TaskItem {
 	}
 
 	/**
-	 * Sets the state of the task 
+	 * Sets the current state of the TaskItem to reflect the provided state String.
+	 * If the state String is an invalid state type, an IllegalArgumentException is thrown.
 	 * @param state the state to set
+	 * @throws IllegalArgumentException if the provided state String is an invalid state type
 	 */
 	protected void setState(String state) {
 	    if (state == null) {
@@ -202,8 +209,9 @@ public class TaskItem {
 	}
 	
 	/**
-	 * Sets the type of the task to the provided task type.
+	 * Sets the type of the TaskItem to the provided task type String.
 	 * @param type the provided task type
+	 * @throws IllegalArgumentException if the type String is invalid.
 	 */
 	protected void setType(String type) {
 	    if (type == null) {
@@ -222,40 +230,42 @@ public class TaskItem {
 	}
 
 	/**
-	 * Returns the task item's ID
-	 * @return the task item's ID
+	 * Returns the TaskItem's ID number.
+	 * @return the TaskItem's ID number
 	 */
 	public int getTaskItemId() {
 		return taskID;
 	}
 
 	/**
-	 * Returns the title of the task
-	 * @return the title of the task
+	 * Returns the title of the TaskItem.
+	 * @return the title of the TaskItem
 	 */
 	public String getTitle() {
 		return title;
 	}
 
 	/**
-	 * Returns the creator of the task.
-	 * @return the creator of the task
+	 * Returns the creator of the TaskItem.
+	 * @return the creator of the TaskItem
 	 */
 	public String getCreator() {
 		return creator;
 	}
 
 	/**
-	 * Returns the owner of the task.
-	 * @return the owner of the task
+	 * Returns the owner of the TaskItem.
+	 * @return the owner of the TaskItem
 	 */
 	public String getOwner() {
 		return owner;
 	}
 
 	/**
-	 * Sets the counter variable to the parameter value.
+	 * Sets the counter variable to the parameter value. Throws an IllegalArgumentException
+	 * if the counter value is less than 1.
 	 * @param counter the new counter value
+	 * @throws IllegalArgumentException if the counter value is less than 1
 	 */
 	public static void setCounter(int counter) {
 		if (counter < 1) {
@@ -265,24 +275,24 @@ public class TaskItem {
 	}
 	
 	/**
-	 * Returns the name of the task's state.
-	 * @return the name of the task's state
+	 * Returns the name of the TaskItem's state.
+	 * @return the name of the TaskItem's state
 	 */
 	public String getStateName() {
 		return state.getStateName();
 	}
 	
 	/** 
-	 * Returns the type of the task.
-	 * @return the type of the task
+	 * Returns the type of the TaskItem.
+	 * @return the type of the TaskItem
 	 */
 	public Type getType() {
 		return type;
 	}
 	
 	/**
-	 * Returns the type of the task as a string.
-	 * @return the type of the task as a string
+	 * Returns the name of the type of the TaskItem.
+	 * @return the name of the type of the TaskItem
 	 */
 	public String getTypeString() {
 		if (type.equals(Type.BUG)) {
@@ -298,8 +308,8 @@ public class TaskItem {
 	}
 	
 	/**
-	 * Returns the type of the task as a full string
-	 * @return the type of the task as a full string
+	 * Returns the full name of the type of the TaskItem.
+	 * @return the full name of the type of the TaskItem
 	 */
 	public String getTypeFullString() {
 		if (type.equals(Type.BUG)) {
@@ -316,15 +326,15 @@ public class TaskItem {
 
 	
 	/** 
-	 * Returns the notes of the task.
-	 * @return the notes of the task
+	 * Returns the notes of the TaskItem.
+	 * @return the notes of the TaskItem
 	 */
 	public ArrayList<Note> getNotes() {
 		return notes;
 	}
 	
 	/**
-	 * Updates the current command for the task
+	 * Updates the TaskItem with the provided command.
 	 * @param command the command to execute
 	 */
 	public void update (Command command) {
@@ -332,8 +342,8 @@ public class TaskItem {
 	}
 	
 	/**
-	 * Returns the task as an XML type
-	 * @return the task an an XML type
+	 * Returns the TaskItem as an XML Task
+	 * @return the TaskItem an an XML Task
 	 */
 	public Task getXMLTask() {
 		Task task = new Task();
@@ -360,7 +370,7 @@ public class TaskItem {
 	
 	/**
 	 * Returns the list of notes as a 2D String array
-	 * @return the list of notes
+	 * @return the list of notes as a 2D String array
 	 */
 	public String[][] getNotesArray () {
 		String[][] array = new String[notes.size()][2];
@@ -399,10 +409,12 @@ public class TaskItem {
 	}
 	
 	/**
-	 * Represents the state where a task is in the Backlog State.
+	 * The BacklogState class represents the state of a TaskItem when it is in the
+	 * backlog.Throws an UnsupportedOperationException if the provided update command is
+     * invalid for this state type.
 	 * @author Walker Booth
 	 * @author Brian Morris
-	 *
+	 * @throws UnsupportedOperationException if the provided update command is invalid for this state type.
 	 */
 	private class BacklogState implements TaskItemState {
 
@@ -433,10 +445,12 @@ public class TaskItem {
 	}
 	
 	/**
-	 * Represents the state where a task is in the Owned State.
+	 * The OwnedState class represents the state of a TaskItem when it has been claimed
+	 * by an owner. Throws an UnsupportedOperationException if the provided update command is
+     * invalid for this state type.
 	 * @author Walker Booth
 	 * @author Brian Morris
-	 *
+	 * @throws UnsupportedOperationException if the provided update command is invalid for this state type.
 	 */
 	private class OwnedState implements TaskItemState {
 
@@ -469,9 +483,12 @@ public class TaskItem {
 	}
 	
 	/**
-	 * Represents the state where a task is in the Processing State.
+	 * The ProcessingState class represents the state of a TaskItem while its undergoing
+	 * implementation. Throws an UnsupportedOperationException if the provided update command is
+	 * invalid for this state type.
 	 * @author Walker Booth
 	 * @author Brian Morris
+	 * @throws UnsupportedOperationException if the provided update command is invalid for this state type.
 	 *
 	 */
 	private class ProcessingState implements TaskItemState {
@@ -509,10 +526,12 @@ public class TaskItem {
 	}
 	
 	/**
-	 * Represents the state where a task is in the Verifying State.
+	 * The VerifyingState class represents the state of a TaskItem that is undergoing
+	 * verification. Throws an UnsupportedOperationException if the provided update command is
+     * invalid for this state type.
 	 * @author Walker Booth
 	 * @author Brian Morris
-	 *
+	 * @throws UnsupportedOperationException if the provided update command is invalid for this state type.
 	 */
 	private class VerifyingState implements TaskItemState {
 
@@ -541,10 +560,12 @@ public class TaskItem {
 	}
 	
 	/**
-	 * Represents the state where a task is in the Done State.
+	 * The DoneState class represents a TaskItem when it has been completed.
+	 * Throws an UnsupportedOperationException if the provided update command is
+     * invalid for this state type.
 	 * @author Walker Booth
 	 * @author Brian Morris
-	 *
+	 * @throws UnsupportedOperationException if the provided update command is invalid for this state type.
 	 */
 	private class DoneState implements TaskItemState {
 
@@ -574,10 +595,12 @@ public class TaskItem {
 	}
 	
 	/**
-	 * Represents the state where a task is in the Rejected State.
+	 * The RejectedState class represents a TaskItem when it has been rejected.
+	 * Throws an UnsupportedOperationException if the provided update command is
+     * invalid for this state type.
 	 * @author Walker Booth
 	 * @author Brian Morris
-	 *
+	 * @throws UnsupportedOperationException if the provided update command is invalid for this state type.
 	 */
 	private class RejectedState implements TaskItemState {
 
@@ -601,7 +624,7 @@ public class TaskItem {
 	}
 	
 	/**
-	 * Holds the various types of types
+	 * An enumeration that contains the various types that a TaskItem may be.
 	 * @author Walker Booth
 	 * @author Brian Morris
 	 *

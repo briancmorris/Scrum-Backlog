@@ -1,10 +1,8 @@
-/**
- * 
- */
 package edu.ncsu.csc216.backlog.task;
 
 /**
- * Contains data about a Note in the Scrum system. 
+ * The Note class contains information about a note that is stored in a TaskItem
+ * including the note's author and the text of the note.
  * @author Walker Booth
  * @author Brian Morris
  */
@@ -16,9 +14,11 @@ public class Note {
     private String noteText;
     
     /**
-     * The constructor of Note.
+     * The constructor of Note initializes values for all fields. If any of the parameters
+     * are null or an empty String, an IllegalArgumentException is thrown.
      * @param noteAuthor the author of the Note
      * @param noteText the text of the Note
+     * @throws IllegalArgumentException if any of the parameters are null or an empty String
      */
     public Note (String noteAuthor, String noteText) {
         if (noteAuthor == null || noteAuthor.isEmpty()) {
