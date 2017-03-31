@@ -122,7 +122,7 @@ public class TaskItemList {
     public TaskItem getTaskItemById(int id) {
         for (int i = 0; i < taskItemList.size(); i++) {
             TaskItem testItem = taskItemList.get(i);
-            if (testItem.getTaskItemId() == id) {
+            if (testItem != null && testItem.getTaskItemId() == id) {
                 return testItem;
             }
         }
@@ -136,7 +136,7 @@ public class TaskItemList {
     public void deleteTaskItemById(int id) {
         for (int i = 0; i < taskItemList.size(); i++) {
             TaskItem testItem = taskItemList.get(i);
-            if (testItem.getTaskItemId() == id) {
+            if (testItem != null && testItem.getTaskItemId() == id) {
                 taskItemList.remove(i);
             }
         }
@@ -150,7 +150,7 @@ public class TaskItemList {
     public void executeCommand(int id, Command command) {
         for (int i = 0; i < taskItemList.size(); i++) {
             TaskItem testItem = taskItemList.get(i);
-            if (testItem.getTaskItemId() == id) {
+            if (testItem != null && testItem.getTaskItemId() == id) {
                 testItem.update(command);
             }
         }

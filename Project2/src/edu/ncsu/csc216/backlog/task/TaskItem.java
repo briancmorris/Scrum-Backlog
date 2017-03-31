@@ -343,6 +343,7 @@ public class TaskItem {
     	task.setCreator(creator);
     	task.setId(taskID);
     	task.setOwner(owner);
+    	task.setVerified(isVerified);
     	
     	NoteList noteList = new NoteList();
 		task.setNoteList(noteList);
