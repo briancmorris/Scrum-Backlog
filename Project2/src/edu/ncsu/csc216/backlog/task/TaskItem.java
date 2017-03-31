@@ -481,7 +481,10 @@ public class TaskItem {
 			} else if (c.getCommand() == Command.CommandValue.PROCESS) {
 			    notes.add(new Note(owner, c.getNoteText()));
 			} else if (c.getCommand() == Command.CommandValue.VERIFY) {
-			    notes.add(new Note(owner, c.getNoteText()));
+			    if (type == Type.KNOWLEDGE_ACQUISITION) {
+			    	throw new UnsupportedOperationException ();
+			    }
+				notes.add(new Note(owner, c.getNoteText()));
 	            state = verifyingState;
 			} else if (c.getCommand() == Command.CommandValue.COMPLETE && type.equals(Type.KNOWLEDGE_ACQUISITION)) {
 			    notes.add(new Note(owner, c.getNoteText()));
