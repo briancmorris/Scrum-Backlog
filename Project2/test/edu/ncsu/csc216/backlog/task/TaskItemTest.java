@@ -701,25 +701,18 @@ public class TaskItemTest {
     }
     
     /**
-     * Tests the getState() method.
-     */
-    /*@Test
-    public void testGetState() {
-        TaskItem test = new TaskItem(VALID_TITLE, VALID_TYPE, VALID_CREATOR, VALID_NOTE);
-        assertTrue(test.getState().getStateName().equals("Backlog"));
-    }*/
-    
-    /**
      * Tests the getNotesArray() method.
      */
-    /*@Test
+    @Test
     public void testGetNotesArray() {
         TaskItem test = new TaskItem(VALID_TITLE, VALID_TYPE, VALID_CREATOR, VALID_NOTE);
-        String[][] testArray = new String[test.getNotes().size()][2];
+        String[][] testArray = test.getNotesArray();
         assertTrue(testArray.length == 1);
-        assertTrue(testArray[0][0].equals(VALID_CREATOR));
-        assertTrue(testArray[0][1].equals(VALID_NOTE));
+        String creator = testArray[0][0];
+        String notes = testArray[0][1];
+        assertTrue(VALID_CREATOR.equals(creator));
+        assertTrue(VALID_NOTE.equals(notes));
         Command c = new Command(Command.CommandValue.CLAIM, VALID_CREATOR, VALID_NOTE);
         test.update(c);
-    }*/
+    }
 }
