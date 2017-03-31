@@ -1,5 +1,8 @@
 package edu.ncsu.csc216.backlog.scrum_backlog;
 
+import java.awt.List;
+import java.util.ArrayList;
+
 import edu.ncsu.csc216.backlog.command.Command;
 import edu.ncsu.csc216.backlog.task.TaskItem;
 import edu.ncsu.csc216.backlog.task.TaskItem.Type;
@@ -45,16 +48,24 @@ public class ScrumBacklogModel {
      * @param filename the name of the file
      */
     public void saveTasksToFile(String filename) {
+    	if (tasks.getTaskItems().size() == 0) {
+    		throw new IllegalArgumentException();
+    	}
+    	
+    	if (filename == null) {
+    		throw new IllegalArgumentException();
+    	}
+    	
     	try {
     		TaskWriter output = new TaskWriter(filename);
-    		for (int i = 1; i <= tasks.getTaskItems().size(); i++) {
+    		for (int i = 1; i <= tasks.getTaskItems().size(); i++) {  
+    			//TaskItem t = getTaskItemById(i);
     			output.addItem(tasks.getTaskItemById(i).getXMLTask());
     		}
     		output.marshal();
     	} catch (TaskIOException e) {
     		throw new IllegalArgumentException();
-    	}
-    	
+    	}    	
     }
     
     /**
@@ -66,7 +77,7 @@ public class ScrumBacklogModel {
     		TaskReader input = new TaskReader(filename);
 			tasks.addXMLTasks(input.getTasks());
 			
-		} catch (TaskIOException e) {
+		} catch (Exception e) {
 			throw new IllegalArgumentException();
 		}
     }
@@ -85,10 +96,10 @@ public class ScrumBacklogModel {
      */
     public Object[][] getTaskItemListAsArray() {
 		Object[][] array = new Object[tasks.getTaskItems().size()][3];
-    	for (int i = 1; i < tasks.getTaskItems().size(); i++) {
-			array[i][0] = i;
-			array[i][1] = tasks.getTaskItemById(i).getStateName();
-			array[i][2] = tasks.getTaskItemById(i).getTitle();
+    	for (int i = 1; i <= tasks.getTaskItems().size(); i++) {
+			array[i - 1][0] = tasks.getTaskItemById(i).getTaskItemId();
+			array[i - 1][1] = tasks.getTaskItemById(i).getStateName();
+			array[i - 1][2] = tasks.getTaskItemById(i).getTitle();
 		}
     	return array;
     }
@@ -100,28 +111,14 @@ public class ScrumBacklogModel {
      * @return the TaskItems with the specified owner
      */
     public Object[][] getTaskItemListByOwnerAsArray(String owner) {
-    	int counter = 0;
-    	
-    	if (owner == null) {
-    		throw new IllegalArgumentException();
+    	ArrayList<TaskItem> list = (ArrayList<TaskItem>) tasks.getTaskItemsByOwner(owner);
+    	Object[][] o = new Object[list.size()][3];
+    	for (int i = 0; i < list.size(); i++) {
+    		o[i][0] = list.get(i).getTaskItemId();
+    		o[i][1] = list.get(i).getStateName();
+    		o[i][2] = list.get(i).getTitle();
     	}
-    	
-    	for (int i = 1; i < tasks.getTaskItems().size(); i++) {
-    		if (tasks.getTaskItemById(i).getOwner().equals(owner)) {
-    			counter++;
-    		}
-    	}
-    
-    	Object[][] array = new Object[counter][3];
-    	for (int i = 1; i <= counter; i++) {
-    		if (tasks.getTaskItemById(i).getOwner().equals(owner)) {
-    			array[counter][0] = i;
-    			array[counter][1] = tasks.getTaskItemById(i).getStateName();
-    			array[counter][2] = tasks.getTaskItemById(i).getTitle();
-    		}
-    	}
-    	
-    	return array;
+    	return o;
     }
     
     /**
@@ -131,28 +128,14 @@ public class ScrumBacklogModel {
      * @return the TaskItems with the specified creator
      */
     public Object[][] getTaskItemListByCreatorAsArray(String creator) {
-    	int counter = 0;
-    	
-    	if (creator == null) {
-    		throw new IllegalArgumentException();
+    	ArrayList<TaskItem> list = (ArrayList<TaskItem>) tasks.getTasksByCreator(creator);
+    	Object[][] o = new Object[list.size()][3];
+    	for (int i = 0; i < list.size(); i++) {
+    		o[i][0] = list.get(i).getTaskItemId();
+    		o[i][1] = list.get(i).getStateName();
+    		o[i][2] = list.get(i).getTitle();
     	}
-    	
-    	for (int i = 1; i < tasks.getTaskItems().size(); i++) {
-    		if (tasks.getTaskItemById(i).getOwner().equals(creator)) {
-    			counter++;
-    		}
-    	}
-    
-    	Object[][] array = new Object[counter][3];
-    	for (int i = 1; i <= counter; i++) {
-    		if (tasks.getTaskItemById(i).getOwner().equals(creator)) {
-    			array[counter][0] = i;
-    			array[counter][1] = tasks.getTaskItemById(i).getStateName();
-    			array[counter][2] = tasks.getTaskItemById(i).getTitle();
-    		}
-    	}
-    	
-    	return array;
+    	return o;
     }
     
     /**
@@ -189,6 +172,6 @@ public class ScrumBacklogModel {
      * @param note the note of the TaskItem
      */
     public void addTaskItemToList(String title, Type type, String creator, String note) {
-        tasks.addTaskItem(title, type, creator, note);
+        TaskItem.setCounter(tasks.addTaskItem(title, type, creator, note) + 1);
     }
 }

@@ -14,7 +14,6 @@ import edu.ncsu.csc216.backlog.task.TaskItem;
 import edu.ncsu.csc216.backlog.task.TaskItem.Type;
 import edu.ncsu.csc216.task.xml.NoteItem;
 import edu.ncsu.csc216.task.xml.NoteList;
-import edu.ncsu.csc216.task.xml.Task;
 
 /**
  * Tests the ScrumBacklogModel class. 
@@ -52,6 +51,7 @@ public class ScrumBacklogModelTest {
     @Test
     public void testLoadTasksFromFile () {
         ScrumBacklogModel model1 = ScrumBacklogModel.getInstance();
+        model1.createNewTaskItemList();
         model1.loadTasksFromFile("test_files/exp_task_backlog.xml");
         assertEquals(1, model1.getTaskItemListAsArray().length);
         assertEquals("jep", model1.getTaskItemById(1).getCreator());
@@ -60,17 +60,17 @@ public class ScrumBacklogModelTest {
         assertEquals("sesmith5", model1.getTaskItemById(2).getOwner());
         
         try {
-        	model1.loadTasksFromFile("blahahahah");
-        	
+        	model1.loadTasksFromFile("blahahahahfdas");
+        	fail();
         } catch (IllegalArgumentException e) {
-        	assertEquals("", e.getMessage());
+        	assertEquals(null, e.getMessage());
         }
         
         try {
         	model1.loadTasksFromFile(null);
-        	
+        	fail();
         } catch (IllegalArgumentException e) {
-        	assertEquals("", e.getMessage());
+        	assertEquals(null, e.getMessage());
         }
 
     }
@@ -80,12 +80,14 @@ public class ScrumBacklogModelTest {
      */
     @Test
     public void testSaveTasksToFile () {
-        ScrumBacklogModel model1 = ScrumBacklogModel.getInstance();
-       
+        ScrumBacklogModel model1 = ScrumBacklogModel.getInstance();   
+        model1.createNewTaskItemList();
+
         try {
             model1.saveTasksToFile("test_files/actual_task_backlog.xml");
+            fail();
         } catch (IllegalArgumentException e) {
-        	assertEquals("", e.getMessage());
+        	assertEquals(null, e.getMessage());
         }
         
         model1.loadTasksFromFile("test_files/exp_task_backlog.xml");
@@ -95,13 +97,13 @@ public class ScrumBacklogModelTest {
         try {
         	model1.saveTasksToFile("blahahahah");
         } catch (IllegalArgumentException e) {
-        	assertEquals("", e.getMessage());
+        	assertEquals(null, e.getMessage());
         }
         
         try {
         	model1.saveTasksToFile(null);
         } catch (IllegalArgumentException e) {
-        	assertEquals("", e.getMessage());
+        	assertEquals(null, e.getMessage());
         }
     }
     
@@ -111,6 +113,7 @@ public class ScrumBacklogModelTest {
     @Test
     public void testGetTaskItemListAsArray () {
         ScrumBacklogModel model1 = ScrumBacklogModel.getInstance();
+        model1.createNewTaskItemList();
         
         NoteList testNotes = new NoteList();
 	    NoteItem testNote = new NoteItem();
@@ -137,6 +140,8 @@ public class ScrumBacklogModelTest {
     @Test
     public void testGetTaskItemListByOwnerAsArray () {
         ScrumBacklogModel model1 = ScrumBacklogModel.getInstance();
+        model1.createNewTaskItemList();
+
     	Command c = new Command(CommandValue.CLAIM, OWNER, "now owned");
     	NoteList testNotes = new NoteList();
 	    NoteItem testNote = new NoteItem();
@@ -147,7 +152,7 @@ public class ScrumBacklogModelTest {
         model1.addTaskItemToList(TITLE, TYPE, CREATOR, "notes");
         model1.addTaskItemToList("ANOTHER_TITLE", TYPE, CREATOR, NOTE_TEXT);
         model1.getTaskItemById(2).update(c);
-        
+               
         assertEquals(2, model1.getTaskItemListByOwnerAsArray(OWNER)[0][0]);
         assertEquals(TaskItem.OWNED_NAME, model1.getTaskItemListByOwnerAsArray(OWNER)[0][1]);
         assertEquals("ANOTHER_TITLE", model1.getTaskItemListByOwnerAsArray(OWNER)[0][2]);
@@ -160,6 +165,7 @@ public class ScrumBacklogModelTest {
     @Test
     public void testGetTaskItemListByCreatorAsArray() {
     	ScrumBacklogModel model1 = ScrumBacklogModel.getInstance();
+        model1.createNewTaskItemList();
         
         NoteList testNotes = new NoteList();
 	    NoteItem testNote = new NoteItem();

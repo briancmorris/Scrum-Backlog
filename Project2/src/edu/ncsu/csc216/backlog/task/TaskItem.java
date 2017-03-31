@@ -341,6 +341,7 @@ public class TaskItem {
     	task.setType(getTypeString());
     	task.setState(TaskItem.BACKLOG_NAME);
     	task.setCreator(creator);
+    	task.setId(taskID);
     	
     	NoteList noteList = new NoteList();
 		task.setNoteList(noteList);
