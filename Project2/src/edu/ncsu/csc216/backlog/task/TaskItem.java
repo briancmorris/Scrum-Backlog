@@ -157,7 +157,7 @@ public class TaskItem {
 	        String noteText = taskNotes.get(i).getNoteText();
 	        notes.add(new Note(noteAuthor, noteText));
 	    }
-	    this.taskID = counter;
+	    this.taskID = task.getId();
 	    incrementCounter();
 
 	}
