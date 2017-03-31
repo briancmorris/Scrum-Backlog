@@ -70,7 +70,7 @@ public class TaskItem {
 	public static final String PROCESSING_NAME = "Processing";
 	
 	/** The string representation of verifying */
-	public static final String VERIFYING_NAME = "Veryifying";
+	public static final String VERIFYING_NAME = "Verifying";
 	
 	/** The string representation of done */
 	public static final String DONE_NAME = "Done";

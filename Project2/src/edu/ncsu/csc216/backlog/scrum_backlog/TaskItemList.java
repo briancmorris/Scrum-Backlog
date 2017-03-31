@@ -80,7 +80,11 @@ public class TaskItemList {
      * @return a list containing the TaskItems sorted by the specified owner
      */
     public List<TaskItem> getTaskItemsByOwner(String owner) {
-        List<TaskItem> sortedByOwner = new ArrayList<TaskItem>();
+        if (owner == null) {
+        	throw new IllegalArgumentException ();
+        }
+    	
+    	List<TaskItem> sortedByOwner = new ArrayList<TaskItem>();
         for (int i = 0; i < taskItemList.size(); i++) {
             TaskItem testItem = taskItemList.get(i);
             if (testItem.getOwner() != null && testItem.getOwner().equals(owner)) {

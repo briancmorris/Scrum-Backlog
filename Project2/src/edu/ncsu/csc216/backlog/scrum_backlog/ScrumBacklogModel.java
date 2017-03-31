@@ -1,6 +1,5 @@
 package edu.ncsu.csc216.backlog.scrum_backlog;
 
-import java.awt.List;
 import java.util.ArrayList;
 
 import edu.ncsu.csc216.backlog.command.Command;
