@@ -338,7 +338,7 @@ public class TaskItem {
 	 * @param command the command to execute
 	 */
 	public void update (Command command) {
-		state.updateState(command);
+		getState().updateState(command);
 	}
 	
 	/**
